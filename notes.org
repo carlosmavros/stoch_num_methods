@@ -1,0 +1,600 @@
+#+TITLE: Στοχαστικές Αριθμητικές Μέθοδοι και Εφαρμογές
+#+SUBTITLE: Διδάσκων: Σαμπάνης Σ.
+#+AUTHOR: Κάρλος Μαύρος - ΣΕΜΦΕ ΕΜΠ
+#+LATEX_CLASS: org-notes
+#+LATEX_COMPILER: xelatex
+#+OPTIONS: num:nil
+#+OPTIONS: toc:nil
+
+* ΕΙΣΑΓΩΓΗ
+
++ MCMC (Markov Chain Monte Carlo).
++ Langevin Stochastic DEs: βλέπουμε τις στοχαστικές λύσεις σαν στοχαστικές διαφορικές εξισώσεις.
++ Βελτιστοποίηση μη κυρτών συναρτήσεων σε χώρους μεγάλων διαστάσεων.
+
+
+
+Στα gradient methods & stochastic gradient methods υπάρχουν 2 σχολές:
++ Επιχειρησιακή έρευνα (κυρτές συναρτήσεις).
++ Μέσα από την θεωρία του Stochastic Approximation: χρησιμοποιεί ΔΕ σαν εργαλεία
+
+Το stochastic gradient methods δεν είναι πραγματικά στοχαστικές (υπολογίζουμε απλώς μια μέση τιμή)
+Οι stochastic gradient methods είναι ένα υποσύνολο της θεωρίας Stochastic Approximation, η οποία
+χρησιμοποιεί πραγματικά στοχαστικά εργαλεία (έχουμε μέσα στοχαστικές διαδικασίες).
+
+Tools:
++ a.s. convergence
++ convergence with probability
++ Ito's formula (σημαντικό) διαχωρίζει το δυναμικό σύστημα τ.ω. να μπορούμε να αναγνωρίζουμε ποια
+  είναι τα martingales. Βλέπω τις τάσεις του δυναμικού συστήματος.
+
+* ΔΙΑΔΙΚΑΣΤΙΚΑ ΜΑΘΗΜΑΤΟΣ
++ θα γίνει εξέταση
++ βιβλιογραφία:
+  + (Θεωρία Πιθανοτήτων) David Williams : Probability with martingales
+  + (Στοχαστικές Διαδικασίες/Ανάλυση) Καραντζάς & Steven
+
+\newpage
+* Μάθημα 1
+
+** Εισαγωγή
+
++ Ονομάζουμε σύνολο κάθε συλλογή αντικειμένων όπου η διάταξη δεν έχει σημασία.
++ Κάθε μέρος του συνόλου ονομάζεται υποσύνολο του συνόλου.
++ Έστω $\Omega$ σύνολο, τότε το δυναμοσύνολο του $\Omega$ είναι το σύνολο όλων
+  των υποσυνόλων του $\Omega$ και το συμβολίσουμε $\mathcal{P}(\Omega)$.
++ Για κάθε σύνολο $\Omega = \{1,2,\dots, n\}$ όπου $n\in \mathbb{N}$ το $\mathcal{P}(\Omega)$ έχει $2^n$ στοιχεία.
+
+\begin{paradeigma}
+    $$\Omega = \{ 1,2,3,\} \quad \mathcal{P}(\Omega) = \{\emptyset, \Omega, \{1\}, \{2\}, \{3\}, \{1,2,\}, \{1,3\}, \{2,3\}\} = 2^\Omega$$
+\end{paradeigma}
+
+\begin{orismos}{(σ-άλγεβρα)}: ονομάζουμε σ-άλγεβρα $\mathcal{F}$ ενός συνόλου $\Omega$ κάθε σύνολο υποσυνόλων του $\Omega$
+με τις εξής ιδιότητες:
+
+1. $\emptyset \in \mathcal{F}$
+2. $A \in \mathcal{F} \Rightarrow A^c \in \mathcal{F}$
+3. $A_1,A_2,\dots \in \mathcal{F} \Rightarrow \bigcup_{i}A_i \in \mathcal{F}$
+
+\end{orismos}
+
+\begin{paradeigma}
+    Τετριμμένη σ-άλγεβρα: $\mathcal{F} = \{\emptyset, \Omega\}$\\
+\end{paradeigma}
+
+\begin{paradeigma}
+    Για κάθε $A\subset \Omega$ μπορώ να φτιάξω την $\mathcal{F} = \{\emptyset, A, A^c, \Omega\}$
+    που είναι σ-άλγεβρα.
+\end{paradeigma}
+
+\end{paradeigma}
+    Αν έχω μια αριθμήσιμη συλλογή από pairwise disjoint sets $A_1,A_2,\dots$
+    δηλαδή $A_i \cap A_j = \emptyset \: \forall i \neq j$ και $\bigcup_i A_i = \Omega$
+    διαμέριση του $\Omega$, τότε
+    $$\mathcal{F} = \{\emptyset, \Omega, A_1, A_2, \dots, \text{όλες τις πιθανές ενώσεις των }\: A_i\}$$
+
+Αν έχω μια διαμέριση μπορώ να πάρω όλα τα συμπληρώματα με μόνο ενώσεις, δηλαδή αν είχα τα σύνολα διαμέρισης
+$A_1,A_2,A_3,A_4$ θα είχαμε $(A_1 \cup A_2)^c = A_3 \cup A_4$
+\end{paradeigma}
+\newpage
+
+* Μάθημα 2
+
+** Στοιχεία Θεωρίας Πιθανοτήτων
+
+\begin{orismos}{(Παραγόμενη σ-άλγεβρα)}:
+Αν $\mathcal{A}$ είναι μια συλλογή υποσυνόλων του $\Omega$,
+τότε μπορούμε να βρούμε πάντοτε μια σ-άλγεβρα που να περιέχει το $\mathcal{A}$, η οποία είναι
+το δυναμοσύνολο $\mathcal{P}(\Omega)$.\\
+Παίρνωντας την τομή όλων των σ-αλγεβρών που περιέχουν το $\mathcal{A}$ καταλήγουμε
+στην παραγόμενη σ-άλγεβρα (ή ελάχιστη σ-άλγεβρα).
+
+$$\sigma(\mathcal{A}) = \bigcap_{\mathcal{A} \in \mathcal{F}}  \mathcal{F} \quad\quad\quad \text{ όπου κάθε } \mathcal{F} \: \text{σ-άλγεβρα}$$
+\end{orismos}
+*Σημαντικές Ιδιότητες*: Έστω $\mathcal{F}$ μια σ-άλγεβρα ενός συνόλου $\Omega$
+- $A,B \in \mathcal{F} \Rightarrow A\cap B \in \mathcal{F}$
+- Η τομή δύο ή περισσοτέρων σ-αλγεβρών είναι επίσης σ-άλγεβρα.
+
+
+\begin{orismos}{(Borel σ-άλγεβρα)}\\
+Ονομάζουμε σ-άλγεβρα Borel (ή Borel σύνολα), συμβ. $\mathcal{B}({\mathbb{R^d})$ (στο $\mathbb{R^d},\: d=1,2,\dots$), την ελάχιστη
+σ-άλγεβρα (παραγόμενη) που περιέχει όλα τα ανοικτά υποσύνολα του $\mathbb{R}^d$.\\
+\end{orismos}
+
+\begin{protasi}
+Η σ-άλγεβρα Borel είναι η μικρότερη σ-άλγεβρα που περιέχει τα διαστήματα της μορφής
+$$(-\infty,\alpha] \quad \alpha \in \mathbb{Z}$$
+
+\textbf{Απόδειξη}\\
+Έστω $\mathcal{O}$ το σύνολο όλων των ανοικτών συνόλων του $\mathbb{R}$, τότε $\sigma(\mathcal{O}) = \mathcal{B}(\mathbb{R})$.\\
+Έστω $\mathcal{D}$ το σύνολο όλων των διαστημάτων της μορφής $(-\infty,\alpha] \quad \alpha \in \mathbb{Z}$.\\
+Έστω τώρα μια φθίνουσα ακολουθία $\{\alpha_k\}_{k\geq 1} \subset \mathbb{Z} $ ρητών αριθμών τ.ω. $\alpha_k \downarrow \alpha \in \mathbb{R}$ και έστω μια αύξουσα
+ακολουθία $\{\beta_k\}_{k\geq 1} \subset \mathbb{Z}$ τ.ω. $\beta_k \upnarrow b \in \mathbb{R}$. Συνεπώς μιας και
+$$ (\alpha,\beta) = \bigcup_{n=1}^{\infty} \big( (-\infty,\beta_n]\cap(-\infty,\alpha_n]^c\big)$$
+Καταλήγουμε στο ότι το $(\alpha,\beta)$ ανήκει στην $\sigma(\mathcal{D})$ για κάθε $\alpha,\beta \in \mathbb{R}$ και άρα έχουμε $\mathcal{B}(\mathbb{R})\subset \sigma(\mathcal{D})$.\\
+Από την άλλη έχουμε $\sigma(\mathcal{D}) \subset \mathcal{B}(\mathbb{R}$ αφού τα διαστήματα στο $\mathcal{D}$ μπορούμε να τα δούμε ως συμπληρώματα ανοικτών διαστημάτων, συνεπώς η
+ελάχιστη σ-άλγεβρα που περιέχει τέτοια ανοικτά υποσύνολα/διαστήματα θα είναι υποσύνολο της ελάχιστης σ-άλγεβρας που περιέχει όλα τα ανοικτά υποσύνολα του $\mathbb{R}$.\qed
+\end{protasi}
+
+**Σημείωση**: Γενικά αν $A \subset B \Rightarrow \sigma(A) \subset \sigma(B)$ και αν $\mathcal{F}$ είναι σ-άλγεβρα τότε\\
+$\sigma (\mathcal{F}) = \mathcal{F}$
+
+- Μονοσύνολα της μορφής $\{a\}$ όπου $a \in \mathbb{R}$ ανήκουν στην $\mathcal{B}(\mathbb{R})$.
+- $\mathbb{N},\mathbb{Q}, \mathbb{R}\setminus \mathbb{Q} \in \mathcal{B}(\mathb{R})$.
+
+\begin{orismos}(Μετρήσιμο σύνολο)}\\
+Έστω $\mathcal{F} μια σ-άλγεβρα. Το σύνολο $A\in \mathcal{F}$ λέγεται $\mathcal{F}$-μετρήσιμο ($\mathcal{F}$-measurable).
+\end{orismos}
+
+\begin{orismos}{(Μερησιμος χώρος)}\\
+Έστω $\mathcal{F}$ μια σ-άλγεβρα υποσυνόλων ενός συνόλου $\Omega$. Τότε το ζεύγος $(\Omega,\mathcal{F})$ ονομάζεται
+μετρήσιμος χώρος (measurable space)
+\end{orismos}
+
+\begin{orismos}{(Μετρήσιμη συνάρτηση)}\\
+Έστω $\Omega$ ένα μη-κενό σύνολο, $\mathcal{F}$ μια σ-άλγεβρα του $\Omega$ και $f:\Omega \mapsto \mathbb{R}^n$. Η συνάρτηση
+$f$ ονομάζεται $\mathcal{F}$-μετρήσιμη (ή απλώς μετρήσιμη) αν για κάθε σύνολο Borel $B$, δηλαδή $B\in\mathcal{B}(\mathbb{R^n})$
+$$ f^{-1}(B) = \{ \omega \in \Omega \: : \: f(\omega) \} \in \mathcal{F}$$
+\end{orismos}
+
+**Τα παρακάτω είναι ισοδύναμα**
+- Η f είναι μετρήσιμη
+- Για κάθε ανοικτό σύνολο $A\subset \mathbb{R}^n$ ισχύει $f^{-1}(A) \in \mathcal{F}$.
+- Για κάθε κλειστό σύνολο $B\subset \mathbb{R}^n$ ισχύει $f^{-1}(B) \in \mathcal{F}$.
+
+**Σημείωση**: Η μετρησιμότητα (measurability) μιας συνάρτησης εξαρτάται από το πόσο μεγάλη είναι η σ-άλγεβρα.
+- Αν $\mathcal{F} = \{ \emptyset, \Omega\}$ τότε μετρήσιμες είναι μόνο οι σταθερές συναρτήσεις, δηλ. $f(\omega) = c \in \mathbb{R}, \forall \omega \in \Omega$.\\
+  Αν $B\in \mathcal{B}(\mathbb{R})$, όπου $B$ ανοικτό σύνολο, τότε
+  $$ f^{-1}(B)= \begin{cases}
+    \emptyset \quad , c \notin B \\
+    \Omega \quad , c \in B
+    \end{cases}$$
+
+- Αν $A\subset\Omega$, $\mathcal{F}=\{\emptyset, A, A^c,\Omega \}$ τότε:
+
+  $$ \mathbf{1}_A(\omega) = \begin{cases} 1 \quad , \omega \in A\\
+  0 \quad , \omega \in A^c
+  \end{cases}$$
+
+  $$f(\omega) = \begin{cases} c_1\quad , \omega \in A\\
+  c_2 \quad , \omega \in A^c
+  \end{cases}$$
+
+  Γιατί; Έστω $B \in \mathcal{B}(\mathbb{R})$ τότε
+  $$ f^{-1}(B) = \begin{cases}
+  \emptyset \quad , 0,1 \notin B\\
+  A \quad , 1 \in B\\
+  A^c \quad , 0 \in B \\
+  \Omega \quad, 0,1, \in B
+  \end{cases}$$
+
+  \pagebreak
+
+* Μάθημα 3
+
+** Ιδιότητες μετρήσιμων συναρτήσεων
+1. Οι δείκτριες συναρτήσεις ενός μετρήσιμου συνόλου είναι μετρήσιμες ( $A \in \mathcal{F} \Rightarrow \mathbf{1}_A \text{ είναι } \mathcal{F}\text{-μετρήσιμη}$ )
+2. Το άθροισμα, η διαφορά, το γινόμενο και το πηλίκο (όπου ορίζεται) μετρήσιμων συναρτήσεων είναι μετρήσιμα.
+3. Το μέγιστο και το ελάχιστο δύο ή περισσοτέρων (πεπερασμένων) μετρήσιμων συναρτήσεων είναι μετρήσιμα.
+4. Το όριο (όταν υπάρχει) μιας ακολουθίας μετρήσιμων συναρτήσεων είναι μετρήσιμο όπως επίσης το $\liminf$ και το $\limsup$.
+5. Το $\sup$ και το $\inf$ μιας ακολουθίας μετρήσιμων συναρτήσεων είναι μετρήσιμα.
+6. Η σύνθετη συνάρτηση $g \circ f$ μιας μετρήσιμης συνάρτησης $f$ με μια συνεχή συνάρτηση $g$ είναι μετρήσιμη συνάρτηση.
+
+Ως αποτέλεσμα, οι συναρτήσεις $f^+$ και $f^-$ οι οποίες ορίζονται ως
+$$ f^+(x) = \max (f(x),0) \qquad f^-(x) = - \min(f(x),0)$$
+είναι μετρήσιμες αν η $f$ είναι μετρήσιμη.\\
+
+(Για τα παραπάνω δεν θα κάνουμε απόδειξη σε αυτό το μάθημα, τα χρησιμοποιούμε ελεύθερα στις ασκήσεις και στην εξέταση με απλή αναφορά τους)
+
+** Θεωρία Μέτρου
+
+\begin{orismos} Έστω $(\Omega, \mathcal{F})$ είναι μετρήσιμος χώρος και έστω $\mu: \mathcal{F} \rightarrow \mathbb{R} \cup \{+\infty\}$
+είναι μια συάρτηση. Τότε, η $\mu$ ονομάζεται \textbf{μέτρο} αν:
+\begin{enumerate}
+\item Για όλα τα $A \in \mathcal{F}$ έχουμε $\mu(A) \geq 0$.
+\item $\mu(\emptyset)=0$.
+\item Αν τα σύνολα $A_1,A_2, \dots \in \mathcal{F}$ είναι ξένα μεταξύ τους ανά δύο τότε $\mu\big( \bigcuo_{i=1}^\infty A_i\big) = \sum_{i=1}^\infty \mu(A_i)$ (αριθμήσιμη προσθετικότητα)
+\end{enumerate}\\
+\end{orismos}
+
+\begin{orismos} Ως \textbf{μέτρο πιθανόητας} ορίζουμε σε μία σ-άλγεβρα $\mathcal{F}$ ενός συνόλου $\Omega$, μια συνάρτηση
+$P: \mathcal{F} \rightarrow [0,1]$ η οποία ικανοποιέι τις ιδιότητες ενός μέτρου και $P(\Omega)=1$.\\
+\end{orismos}
+
+\begin{orismos} Ονομάζουμε \textbf{χώρο πιθανότητας} την τριάδα $(\Omega, \mathcal{F}, P)$, όπου $\Omega$ είναι ένα σύνολο (που συχνά ονομάζεται δειγματοχώρος/sample space), $\mathcal{F}$ είναι μια σ-άλγεβρα υποσυνόλων του $\Omega$ και $P:\mathcal{F}\rightarrow [0,1]$ είναι ένα μέτρο πιθανότητας.\\
+\end{orismos}
+
+*** Ιδιότητες μέτρων πιθανότητας
+Θεωρούμε τον χ.π. $(\Omega, \mathcal{F},P)$. Τότε ισχύουν τα εξής:
+1. (coutable subadditivity). Για κάθε $A_1,A_2,\dots \in \mathcal{F}$ έχουμε $P\big( \bigcup_{i\geq 1} \big) \leq \sum_{i\geq 1} P(A_i)$.
+2. (monotonicity). Για κάθε $A,B \in \mathcal{F}$ με $A\subset B$ έχουμε $P(A)\leq P(B)$.
+3. (continuity). Έστω $A_1 \subset A_2 \subset \dots$ όπου $A_1, A_2,\dots \in \mathcal{F}$ μια αύξουσα ακολουθία ενδεχομένων, τότε $\lim_{n\rightarrow \infty}P(A_n) = P \big( \bigcup_{n=1}^\infty A_n \big)$
+
+*Σημείωση*: Οι παραπάνω ιδιότητες ισχύοτν για οποιοδήποτε μέτρο.\\
+
+Πιο κάτω παραθέτουμε μια απόδειξη της Ιδιότητας 3.
+
+\begin{align*}
+P\big( \bigcup_{n=1}^\infty A_n \big) &= P\big( \bigcup_{n=1}^\infty (A_n \setminus A_{n-1}\big)\\
+\text{(countable additivity) } &= \sum_{n=1}^{\infty} P(A_n \setminus A_{n-1}) \\
+&= \lim_{n\rightarrow \infty} \sum_{i=1}^n P(A_i\setminus A_{i-1})\\
+\text{(countable additivity) } &= \lim_{n \rightarrow \infty} P\big( \bigcup_{i=1}^n(A_n \setminus A_{n-1} ) \big)\\
+&= \lim_{n \rightarrow \infty} P(A_n)
+\end{align*}
+
+*Ιδιότητα* (πηγάζει από την 3) Έστω $A_1 \supset A_2 \supset \dots$ (contracting sequence of events), τότε ισχύει ότι:
+$$\lim_{n\rightarrow \infty} P(A_n) = P\big( \bigcap_{n=1}^\infty A_n\big)$$
+\pagebreak
+
+\begin{orismos}
+Έστω $(\Omega, \mathcal{F})$ μετρήσιμος χώρος και $\mu: \mathcal{F} \rightarrow \mathbb{R}\cup\{+\infty\}$ είναι ένα μέτρο. Τότε
+ονομάζουμε αυτό το μέτρο:
+\begin{enumerate}
+\item \textbf{πεπερασμένο}, αν $\mu(\Omega) < \infty$.
+\item \textbf{σ-πεπερασμένο}, αν υπάρχει μια ακολουθία $\{A_n\}_{n\geq 0}$ στοιχείων της $\mathcal{F}$ τέτοια
+ώστε $\mu(A_n) < \infty \: \forall n \in \mathbb{R}$ και $\bigcup_{n\geq 1} A_n = \Omega$
+\end{enumerate}
+\end{orismos}
+
+*** Θεώρημα Καραθεοδωρή (εκτός ύλης)
+
+\begin{orismos} Έστω $\Omega$ είναι ένα μη-κενό σύνολο. Ονομάζουμε ένα σύνολο υποσυνόλων
+$\mathcal{G}$ του $\Omega$ ως \textbf{π-σύστημα (ή άλγεβρα)} αν είναι κλειστό ως προς τις πεπερασμένες τομές,
+δηλαδή:
+$$G_1,G_2 \in \mathcal{G} \Rightarrow G_1 \cap G_2 \in \mathcal{G}$$
+\end{orismos}
+
+\begin{protasi}
+Αν δύο μέτρα πιθανότητας συμπίπτουςν σε ένα π-σύστημα, τότε συμπίπτουν και στην σ-άλγεβρα που παράγεται
+από το π-σύστημα.
+\end{protasi}
+
+\begin{theorima} \textbf{Caratheodory's Extension Theorem}\\
+Έστω $\Omega$ έιναι ένα σύνολo, $\mathcal{G}$ ένα π-σύστημα του $\Omega$ και $\mathcal{F}= \sigma(\mathcal{G})$. Αν το $\mu_0$ είναι μια αριθμήσιμα προσθετική συνάρτηση από το $\mathcal{G}$ στο $[0,+\infty]$, δηλ. $\mu_0 : \mathcal{G} \rightarrow \mathbb{R}_+ \cup \{+\infty\}$.\\
+Τότε υπάρχει μέτρο στο $(\Omega, \mathcal{F})$ τέτοιο ώστε
+$$\mu(A) = \mu_0 (A) \quad \forall A \in \mathcal{G}$$
+Αν μάλιστα $\mu_0(\Omega) < \infty$, τότε υπάρχει μοναδικό τέτοιο μέτρο $\mu$.
+\end{theorima}
+
+\begin{paradeigma}
+Μέτρο Lebesgue στο $(\Omega, \mathcal{F}) = ((0,1], \mathcal{B}( (0,1]))$. Θεωρούμε όλα εκείνα τα υποσύνολα του $\Omega$ τα οποία μπορούν
+να γραφτούν ως πεπερασμένες ενώσεις των διαστημάτων $(a_1,b_1], \dots (a_n,b_n]$ όπου $n \in \mathbb{N}$ και $0 < a_1 \leq b_1 \leq \dots \leq a_n \leq b_n \leq 1$.
+Αν $\mathcal{G}$ είναι το π-σύστημα (άλγεβρα) που περιέχει όλα αυτά τα υποσύνολα, τότε $\mathcal{F} = \sigma(\mathcal{G}) = \mathcal{B}((0,1])$\\
+
+Ορίζουμε επίσης για κάθε σύνολο $G \in \mathcal{G}$, τη συνάρτηση
+$$\mu_0(G) = \sum_{k\leq r} (b_k - a_k)$$
+όπου αυτό το $G$ είναι $G=(a_1,b_1]\cup\dots\cup (a_r,b_r]$ και $r \leq n$. Έτσι η $\mu_0$ είναι καλώς ορισμένη (well-defined) και είναι αριθμήσιμα προσθετική.\\
+Συνεπώς, σύμφωνα με το Θ. Καραθεοδωρή υπάρχει ένα μοναδικό μέτρο στον $((0,1],\mathcal{B}((0,1]))$ που είναι η προέκταση του $\mu_0$ στο $\mathcal{G}$ και το οποίο
+ονομάζεται μέτρο Lebesgue. (γενίκευση της Ευκλείδιας απόστασης)
+\end{paradeigma}
+
+** Ολοκλήρωση
+
+*Μια παρατήρηση*: Ας εξετάσουμε τη συνάρτηση $f:[0,1]\rightarrow \mathbb{R}$ η οποία ορίζεται ως
+$$ f(x) = \begin{cases} 0, \quad \forall x \in \mathbb{Q}\cap[0,1]\\
+                    1, \quad \forall x \in [0,1]\setminus \mathbb{R}
+                    \end{cases}$$
+
+Καθορίζουμε πρώτα μια διαμέριση $0=x_0<x_1<\dots <x_n=1$ και μετά εξετάζουμε τα αθροίσματα Reiamman για ρητούς αριθμούς $\xi_i$ και παρατηρούμε
+$$ \sum_{i=1}^n f(\xi_i)(x_i - x_{i-1})=0$$
+Αν διαλέξω άρρητους $xi_i$ τότε
+$$ \sum_{i=1}^n f(\xi_i)(x_i - x_{i-1})=1$$
+
+Συνεπώς είναι προφανές ότι αυτή η συνάρτηση δεν είναι Riemann ολοκληρώσιμη.\\
+Ωστόσο παρατηρώ ότι η $f$ είναι η $\mathbf{1}_{[0,1]\setminus \mathbb{Q}$. Ποιο είναι το μέτρο Lebesgue του $A=[0,1]\mathbb{Q}$; Γνωρίζουμε ότι οι ρητοί
+ως αριθμήσιμη ένωση (ξένων) μονοσυνόλων είναι μετρήσιμοι, συνεπώς $\mathbb{Q} = \sum_{i=1}^\infty \{a_i\} = 0$ αφού τα μονοσύνολα είναι σύνολα μέτρου 0, άρα έπεται ότι
+το σύνολο των αρρήτων είναι:
+$$\mu( [0,1] \setminus \mathbb{Q} ) = 1$$
+Ουσιαστικά με τα παραπάνω συλλογιζόμαστε ότι:
+$$ \int _{[0,1]} f(x) d\mu(x) = 1\cdot \mu([0,1]\setminus \mathbb{Q}) + 0 \cdot \mu([0,1]\cap \mathbb{Q}) = 1$$
+\pagebreak
+
+* Μάθημα 4
+Το ερώτημα είναι: *μπορώ να ολοκληρώσω τις απλές συναρτήσεις;*\\
+
+Απλές συναρτήσεις (step functions) είναι συναρτήσεις της μορφής
+$$ f(x) = \sum_{i=1}^n c_i \mathbf{1}_{A_i} \qquad \text{όπου } \: A_i \cap A_j = \emptyset \text{ και } \bigcup_i A_i = \Omega$$
+
+Στόχος μας είναι να ξεκινήσουεμ να κτίζουμε το ολοκλήρωμ από απλές συναρτήσεις και να γενικεύσουμε, καταλήγοντας στο ολοκλήρωμα γενικά για μετρήσιμες συναρτήσεις.
+
+** Το ολοκλήρωμα Lebesgue
+Θα ορίσουμε το ολοκλήρωμα Lebesgue σε τρία βήματα.\\
+
+Έστω $(\Omega,\mathcal{F})$ μετήσιμος χώρος και $\mu:\mathcal{F}\rightarrow \mathbb{R} \cup \{+\infty\}$ ένα μέτρο. Επίσης έστω
+$$F: \Omega \rightarrow \mathbb{R}\cup\{+\infty\} \qquad \text{ μετρήσιμη συνάρτηση }$$
+
+*Βήμα 1*\\
+Θεωρώ ότι έχω $f\geq 0$ απλές και μετρήσιμες συναρτήσεις της μορφής:
+$$ f(x) = \sum_{i=1}^n c_i \mathbf{1}_{A_i} \qquad \text{όπου } \: A_i \cap A_j = \emptyset \text{ και } \bigcup_i A_i = \Omega$$
+τότε ορζίουμε το ολοκλήρωμα Lebesgue της $f$ ως:
+$$ \int_\Omega f d\mu = \sum_{i=1}^\inftu c_i \mu(A_i) \in [0,+\infty]$$
+με την σύμβαση ότι στο ολοκλήρωμα Lebesgeue $(0\cdot \infty = 0)$.\\
+
+*Bήμα 2*\\
+Τώρα θεωρούμε ότι έχουμε $f\geq 0$ μετρήσιμες συναρτήσεις. Στην συνέχεια θα χρειασούμε το Θ. Μονότονης Σύγκλισης/Monotone Convergence Theorem.
+
+\begin{theorima}\textbf{Θεώρημα Μονότονης σύγκλησης.} Έστω $f\geq 0$ μετρήσιμη συνράτηση. Τότε μπορώ να βρώ (πάντοτε) μια ακολουθία μη-αρνητικών απλών συναρτήσεων (που όπως
+είδαμε είναι μετρήσιμες), έστω $\{f_n\}_{n\geq 1}$, έτσι ώστε η $\{f_n\}_n$ να είναι αύξουσα ακολουθία ($f_n \subseteq f_{n+1}\: \forall n$) και
+$$\lim_{n\rightarrow \infty} f_n(x) = f(x) \qquad \text{(pointwise - σημειακά)}$$
+\end{theorima}
+\pagebreak
+
+Για να ορίσουμε το ολοκκηρωμα Lebesgue για $f\geq 0$ μετρήσιμες, χρησιμοποιούμε το Θεώρημα Μονότονης σύγκλισης:
+
+$$ \Big( \int_\Omega \lim_{n\rightarrow \infty} f_n d\mu \Big) = \Big( \int_\Omega f d\mu \Big) = \Big( \lim_{n\rightarrow \infty} f_n d\mu \Big) $$
+
+και τότε, χρησμοποιώντας το Θ. Μονότονης Σύγκλισης μπορούμε να αποδείξουμε ότι το
+$$\Big( \lim_{n\rightarrow \infty} \int_\Omega f_n d\mu \Big)$$G_1
+είναι καλώς ορισμένο και δεν εξαρτάται από την επιλογή της ακολουθίας $\{f_n\}_{n\geq 1}$.\\
+
+*Βήμα 3*\\
+Τέλος, έστω $f$ μετρήσιμη συνάρτηση. Τότε μπορώ να γράψω την $f$ χρησμοποιώντας το θετικό και το αρνητικό της μέρος, δηλαδή
+$$ f = f^+ - f^-$$
+όπου $f^+(x)= \max \{ f(x), 0\}$ και $f^-(x) = \max \{-f(x),0\}$.\\
+Τότε το ολοκλήρωμα Lebesgue ορίζεται ως
+$$\int_\Omega f d\mu = \int_\Omega f^+ d\mu - \int_\Omega f^- d\mu $$
+\pagebreak
+
+** Ιδιότητες
+1. Το ολοκλήρωμα Lebesgue μιας μετρήσιμης συνάρτησης, όπου αυτό ορίζεται, είναι ένα στοιχείο του $[0,\infty]$.
+2. Αν το μέτρο ενός έστω από τα $A_i$ είναι ίσο με άπειρο, τότε το ολοκλήρωμα Lebesgue παίρενει την τιμή $+\infty$ (για κάθε $c_i >0,\: i\geq 1$).
+3. Aν τα ολοκληρώματα $\int_\Omega f^+ d\mu$ και $\int_\Omega f^- d\mu$ παίρνουν την τιμ $+\infty$ τότε το $\int_\Omega fd\mu$ *δεν ορίζεται*.
+4. Αν έχουμε ένα *φραγμένο διάστημα* $[a,b]$ με $a,b \in \mathbb{R}$, το ολοκλήρωμα
+   $$\int_a^b f(x)d(x)$$
+   είναι καλως ορισμένο για $f$ μετρήσιμη, τότε το ολοκλήρωμα Lebesgue
+   $$\int_[a,b]f d\mu $$
+   ισουται με το ολοκλήρωμα Riemann.
+5. Αν για μια μετρήσιμη συνάρτηση $f$ υπάρχει το γενικευμένο ολ. Riemann
+   $$\int_{-\infty}^\infty f(x)d<\inftyx \quad \text{ή}\quad \int_{-\infty}^\infty |f(x)|dx < \infty<\infty$$
+   τότε, το ολοκλήρωμα Lebesgue $\equiv$ Riemann.
+6. Μπορώ να έχω το γενικευμένο ολ. Riemann αλλά όχι το αντίστοιχο Lebesgue. (π.χ. $f(x) = \frac{sinx}{x}\mathbf{1}_{\{x\neq 0\}}$)
+
+** Κύριες Ιδιότητες του ολοκληρώματος Lebesgue:
+
++ \textbf{(Γραμμικότητα - Linearity)}   $$\int_\mathbb{R} (c_1 f + c_2 g) d\mu = c_1 \int_\mathbb{R} fd\mu + c_2 \int_\mathbb{R} gd\mu$$.
++ \textbf{(Ξένα Σύνολα - Disjoint Sets)} Αν $A,B$ είναι ξένα μεταξύ τους σύνολα, τότε
+  $$\int_{A\cup B} f d\mu = \int_A fd\mu + \int_B fd\mu$$
++ \textbf{(Μονοτονία - Comparison)} Αν $f(x) \leq g(x)$ για κάθε $x\in \mathbb{R}$, τότε
+  $$\int_\mathbb{R} f(x)d\mu(x) \leq \int_\mathbb{R} g(x)d\mu(x)$$.
+
+   \pagebreak
+* Μάθημα 5
+
+*** Θεωρήματα Σύγκλισης
+\begin{theorima}\textbf{Μονότονης Σύγκλισης - Monotone Convergence Theorem (MCT).} Έστω $\{f_n\}_{n\geq 1}$ μια αύξουσα ακολουθία μετρήσιμων μη αρνητικών συναρτήσεων, οι οποίες
+  συγκλίνουν σε μια συνάρτηση μετρήσιμη $f$, τότε
+  $$ \int_\mathbb{R} f d\mu = \lim_{n\rightarrow \infty} \int_\mathbb{R} f_n d\mu $$
+  όπου οι δύο πλευρές μπορούν να πάρουν την τιμή άπειρο.
+\end{theorima}
+
+\begin{theorima}\textbf{Λήμμα Fatou - Fatou Lemma (FL).} Έστω $\{f_n\}_{n\geq 1}$ μια ακολουθία μετρήσιμων, μη-αρνητικών συναρτήσεων, τότε
+$$\int_\mathbb{R} \liminf_{n\rightarrow \infty} f_n d\mu  \leq \liminf_{n\rightarrow \infty} \int_\mathbb{R} f_n d\mu $$
+\end{theorima}
+
+\begin{proof}
+Δημιουργώ την ακολουθία μετρήσιμων συναρτήσεων $\{g_n\}_{n\geq 1}$, όπου $g_k:= \inf_{n\geq k} f_n$.
+Η $\{g_n\}$ συνεπώς είναι μια αύξουσα ακολουθία μη-αρνητικών μετρήσιμων συναρτήσεων, όπου
+$$\lim_{n\rightarrow \infty} = \liminf_{n\rightarrow \infty} f_n$$
+
+Συνεπώς, από MCT έχουμε $\int_\mathbb{R} \lim_{k\rightarrow \infty} g_k d\mu = \lim_{k\rightarrow \infty} \int_\mathbb{R} g_k d\mu$, συνεπώς
+
+\begin{align*}
+\int_\mathbb{R} \liminf_{n\rightarrow \infty} f_n d\mu &= \lim_{k\rightarrow \infty} \int \inf_{n\geq k} f_n d\mu\\
+&\leq \lim_{k\rightarrow \infty} \inf_{n\geq k} \int_\mathbb{R} f_n d\mu \\
+(*) \qquad &\leq \liminf_{n\rightarrow \infty} \int_\mathbb{R} f_n d\mu
+\end{align*}
+
+Όπου $(*)$ ισχύει διότι για κάθε $n\geq k, f_n \geq g_k$, συνεπώς $\int_\mathbb{R} f_n d\mu \geq \int_\mathbb{R} g_k d\mu$.
+\end{proof}\\
+
+
+Το λήμμα Fatou μας λέει ότι μπορεί να έχω μια ακολουθία μετρήσιμων τ.μ. που να συκλίνει σε μια (μετρήσιμη) τ.μ. αλλά οι ροπές τους
+(moments) να μην συγκλίνουν!!
+\pagebreak
+
+\begin{theorima}\textbf{Θεώρημα Κυριαρχημένης Σύγκλισης - (Lebesgue) Dominated Convergence Theorem (LDCT).} Έστω $\{f_n\}_{n\geq 1}$ μια ακολουθία ολοκληρώσιμων συναρτήσεων
+η οποία συγκλίνει στην $f$ (σημειακή σύγκλιση - σύγκλιση σ.π/a.e.).\\
+Αν υπάρχει μια ολοκληρώσιμη συνάρτηση $g\geq 0$ τέτοια ώστε $|f_n| \leq g$ (σχεδόν παντού) για κάθε $n\geq 1$, τότε η $f$ είναι
+ολοκληρώσιμη και
+$$\int_\mathbb{R} f d\mu = \lim_{n\rightarrow \infty} \int_\mathbb{R} f_n d\mu$$
+\end{theorima}
+
+\begin{proof}
+Παρατηρούμε πρώτα ότι $|f_n - f| \leq |f_n| + |f| \leq g + g \leq 2g$ και ότι\\
+$$\int_\mathbb{R} 2g d\mu = 2\int_{\mathbb{R}}g d\mu < \infty$$
+
+Τώρα θα κάνουμε χρήση του FT. Έστω $h_n := 2g - |f_n - f|$, άρα η $\{h_n\}$ είναι μια μη-αρνητική ακολουθία μετρήσιμων συναρτήσεων, εφαρμόζω το λήμμα Fatou και
+$$\int_\mathbb{R} \liminf_{n\rightarrow \infty} h_n d\mu \leq \liminf_{n\rightarrow \infty} \int_\mathbb{R} h_n d\mu $$
+
+Συνεπώς
+
+$$ \cancel{\int_\mathbb{R} 2g d\mu} + \int_\mathbb{R} \liminf_{n\rightarrow \infty} (-|f_n - f|) d\mu \leq \cancel{\int_\mathbb{R} 2g d\mu} + \liminf_{n\rightarrow \infty} \int_\mathbb{R}(-|f_n -f|) d\mu$$
+
+χρησιμοποιώντας ότι $-\limsup_{n\rightarrow \infty} -|f_n-f| = \liminf_{n\rightarrow \infty} |f_n -f| παίρνουμε
+
+$$ - \int_\mathbb{R} \limsup_{n\rightarrow \infty} |f_n -f| d\mu \leq - \limsup_{n\rightarrow \infty} \int_\mathbb{R} |f_n-f|d\mu$$
+
+Συνεπώς, πολλαπλασιάζοντας και τα δύο μέλη με $-1$, παίρνουμε
+$$\limsup_{n\rightarrow \infty} \int_\mathbb{R} |f_n - f| d\mu \leq \int_\mathbb{R} |f_n-f| d\mu = 0$$
+καθώς το $\limsup |f_n - f| = \lim |f_n- f| = 0$. Έχουμε δηλαδή
+$$\lim_{n\rightarrow \infty} \int_\mathbb{R}|f_n - f| d\mu = 0$$
+Ισχύει από comparison/monotonicity property ότι
+$$\lim_{n\rightarrow \infty} | \int_\mathbb{R} fd\mu - \int_\mathbb{R} f_n d\mu| = \lim_{n\rightarrow \infty} |\int_\mathbb{R} (f_n -f) d\mu| \leq \lim_{n\rightarrow \infty} \int_\mathbb{R} |f_n-f| d\mu =0 $$
+\end{proof}
+
+*Σημείωση:* Τα παραπάνω τρία θεωρήματα σύκγλισης (MCT, FL, LDCT)  ισχύουν σε σ-πεπερασμένους χώρος μέτρου $(\Omega, \mathcal{F}, \mu)$.\\
+
+\begin{orismos} Έστω $(\Omega,\mathcal{F},\mathbb{P})$ ένας χώρος πιθανότητας. Τότε, μια συνάρτηση $X:\Omega \rightarrow \mathbb{R}$ ονομάζεται \textbf{τυχαία μεταβλητή} αν και μόνο αν
+$$X^{-1}(B) \in \mathcal{F} \quad \forall B \in \mathcal{B}(\mathb{R})$$
+\end{orismos}
+
+\begin{orismos}
+Έστω $\mu,\nu$ δύο μέτρα ορισμένα σε ένα μετρήσιμο χώρο $(\Omega, \mathcal{F})$. Αν για κάθε $A \in \mathcal{F}$ τ.ω. $\mu(A)=0$ τότε $\nu(A)=0$, τότε
+λέμε ότι το $\nu$ είναι \textbf{απόλυτα συνεχές ως προς το} $\mu$ (absolutely continuous w.r.t $\mu$), και συμβολικά γράφουμε $\nu <\!< \mu$
+\end{orismos}
+
+\begin{theorima}\textbf{Radon-Nikodym}
+Έστω $\mu$ και $\nu$ δύο σ-πεπερασμένα μέτρα ορισμένα σε ένα μετρήσιμο χώρο $(\Omega, \mathcal{F})$ και $\nu <\!< \mu$. Τότε υπάρχει μοναδική (σχεδόν παντού)
+μη αρνητική και ολοκληρώσιμη συνάρτηση $f$ στο $(\Omega, \mathcal{F}, \mu)$ τ.ω.
+$$ \nu(A) = \int_A f d\mu  \quad \forall A \in \mathbb{F}$$
+Χρησιμοποιούμε σαν συμβολισμό $d\nu = f d\mu$ (shorthand notation) για να δηλώσουμε την σχέση μεταξύ των δύο μέτρων,
+και η $f = \frac{d\nu}{d\mu}$ είναι γνωστή ως παράγωγος Radon-Nikodym (Radon-Nikodym derivative) ή απλώς πυκνότητα (density) του $\nu$ ως προς το $\mu$.
+\end{theorima}
+
+\pagebreak
+
+* Μάθημα 6
+
+*Παρατήρηση*: Στο Θεώρημα Radon Nikodym αυστηρά δεν έχουμε ορίσει κάποια παράγωγο μέτρου σε σχέση με κάποιο άλλο μέτρο, και ο συμβολισμός της πυκνότητας
+$$f = \frac{d\nu}{d\mu}\qquad \text{ή} \qquad d\nu = fd\mu$$
+ωστόσο, αν δούμε την απόδειξη του Θεωρήματος, αν έχουμε τρία μέτρα $\nu,\mu,\rho$ και πυκνότητες $g=\frac{d\nu}{d\mu}$ και $f=\frac{d\mu}{d\rho}$ μπορούμε να πούμε $gf=\frac{d\nu}{d\rho}$, δηλαδή συμβολικά:
+$$ \frac{d\nu}{d\mu} \frac{d\mu}{d\rho} = \frac{d\nu}{d\rho}$$
+όπου πρακτικά "απλοποιούμε" το κλάσμα. Υπενθυμίζουμε ότι δεν έχουμε παραγώγους και όλα αυτά τα κάνουμε συμβολικά αλλά παίρνουμε έγκυρα αποτελέσματα.\\
+
+*Σύνδεση/εφαρμογή με τα χρηματοοικονομικά μαθηματικα*: Προσπαθούμε να βρούμε ισοδύναμα μέτρα πιθανότητας ως προς το "φυσικό" μέτρο πιθανότητας έτσι ώστε να δημιουργήσουμε στο νέο μέτρο martingales (δίκαια παιχνίδια). Υπό το
+νέο μέτρο, όταν γίνεται η αποτίμηση να μην υπάρχουν ευκαιρίες για arbitrage.\\
+
+\begin{orismos}
+Έστω $X:\Omega \Rightarrow \mathbb{R}$ τ.μ. σε ένα χώρο πιθανότητας $(\Omega,\mathcal{F},\mathbb{R})$. Η απεικόνιση $\mathbb{F}_X:\mathcal{B}(\mathbb{R}) \rightarrow [0,1]$ που ορίζεται ως
+$$ \mathbb{F}_X(B):= \mathbb{P}(X^{-1}(B))] = \mathbb{P}( \{ \omega \in \Omega\: : \: X(\omega) \in B\} ) \in \[0,1]\qquad \forall B \in \mathcal{B}(\mathbb{R})$$
+και ονομάζεται \textbf{κατανομή} της $X$ (distribution or law of the r.v. $X$).\\
+\end{orismos}
+
+*Σημείωση*: Στην θέση του μετρήσιμου χώρου $(\mathbb{R},\mathcal{B}(\mathbb{R}))$ μπορεί να χρησιμοποιηθεί κάποιος άλλος μετρήσιμος χώρος $(S,\mathcal{H})$.\\
+
+\pagebreak
+\begin{protasi}
+Η κατανομή $\mathbb{F}_X$ είναι μέτρο πιθανότητας στον $(\mathbb{R},\mathcal{B})$.
+\end{protasi}
+
+\begin{proof} Αρκεί να δείξουμε ότι ικανοποιεί τις ιδιότητες ενός μέτρου πιθανότητας.
+\begin{enumerate}
+\item $\mathbb{F}_X (B) \in [0,1]$ για κάθε $B\in \mathcal{B}$.
+\item $\mathbb{F}_X (\mathbb{R}) = \mathbb{P}[X^{-1}(\mathbb{R})] = \mathbb{P}[\Omega]$. Ομοίως δείχνω ότι $\mathbb{F}_X (\emptyset) = \mathbb{P}[X^{-1}(\emptyset)] = \mathbb{P}[\emptyset] = 0$.
+\item Αν τα $A_1,A_2,\dots \in \mathcal{B}$ είναι ξένα μεταξύ τους ανά δύο, τότε:
+$$\mathbb{F}_X (\cup_i A_i) = \mathbb{P}[X^{-1}(\cup_{i} A_i)] = \mathbb{P}[\cup_i X^{-1}(A_i)]$$
+και παρατηρώ ότι τα $X^{-1}(A_i)$ είναι ξένα μεταξύ τους ανά δύο, οπότε χρησιμοποιώ την αρ. προσθετικότητα του $\mathbb{P}$ και παίρνω
+$$\mathbb{F}_X(\cup_i A_i) = \sum_{i=1}^\infty \mathbb{P}(X^{-1}(A_i)) = \sum_{i=1}^\infty \mathbb{F}_X(A_i)$$
+\end{enumerate}
+\end{proof}
+
++ Οι συναρτήσεις κατανομής ορίζονται από την σχέση $\mathbb{F}_X(x) := \mathbb{F}((-\infty,x]) = \mathbb{P}(X\leq x)$
++ Οι συνάρτηση κατανομής είναι μοναδική (να γίνει απόδειξη).
++ Το αντίστροφο επίσης ισχύει, δηλαδη: για κάθε συνάρτηση κατανομής $F$ υπάρχει μοναδική κατανομή $\mathbb{F}$ τ.ω. η σχέση που έχουμε πιο πάνω να ικανοποιείται, δηλαδή
+  $$F(x) = \mathbb{F}((-\infty,x])$$
+  να ικανοποιείται.
+
+
+Εμείς επιθυμούμε να ορίσουμε την $\mathbb{E}[X] = \int_\Omega X d\mathbb{P}$, και θα χρησιμοποιήσουμε το πιο κάτω θεώρημα έτσι ώστε να μην απαιτείται
+ο υπολογισμός του ολοκληρώματος Lebesgue μέσω απλών συναρτήσεων, αλλά μέσω ολοκληρωμάτων Riemann με τα οποία είμαστε εξοικειωμένοι.
+
+  \begin{theorima}(\textbf{αλλαγής μεταβλητής}) Έστω $X:\Omega \rightarrow \mathbb{R}$ μια τ.μ. που ορίζεται στον χ.π. $(\Omega,\mathcal{F},\mathbb{P})$ και $g$ μια (Borel) μετρήσιμη συνάρτηση.
+    Τότε
+$$ \int_\Omega g(X(\omega)) d\mathbb{P}(\omega) = \int_\mathbb{R} g(x)d\mathbb{F}_X(x)$$
+δηλαδή αντί να κάνω τον υπολογισμό στον $(\Omega, \mathcal{F}, \mathbb{P})$ τον κάνω στον $(\mathbb{R},\mathcal{B},\mathbb{F}_X)$
+  \end{theorima}
+
+\begin{proof} Κάνουμε την απόδειξη σε τρία βήματα.\\
+
+\begin{enumerate}
+\item Αν $g(x) = \sum_{i=1}^n c_i\mathbf{1}_{A_i}(x)$, όπου $c_i \in \mathbb{R}, A_i \cap A_j = \emptyset$ και $\cup_{i=1}^n = \mathbb{R}$, τότε
+\begin{align*}
+ \int_\Omega g(X(\omega)) d\mathbb{P}(\omega) &= \int_\Omega \sum_{i=1}^n \mathbf{1}_{A_i}(X(\omega))d\mathbb{P}(\omega) = \sum_{i=1}^nc_i\int_\Omega \mathbf{1}_{A_i}(X(\omega))d\mathbb{P}(\omega)\\
+ &= \sum_{i=1}^nc_i\int_{\{ \omega\in\Omega : X(\omega) \in A_i\}} X(\omega) \mathbb{P}(\omega) = \sum_{i=1}^n c_i \int_{X^{-1}(A_i)} 1 \mathbb{P}\\
+&= \sum_{i=1}^n c_i \mathbb{P}(X^{-1}(A_i)) = \sum_{i=1}^n c_i \mathbb{F}_X(A_i)\\
+&= \sum_{i=1}^n c_i \int_{A_i} 1 d\mathbb{F}_X(x)= \sum_{i=1}^n c_i \int_{\mathbb{R}} \mathbf{1}_{A_i} (x)d\mathbb{F}_X(x)\\
+&= \int_{\mathbb{R}} \sum_{i=1}^n c_i \mathbf{1}_{A_i} (x)d\mathbb{F}_X(x)= \int_{\mathbb{R}} g(x) d\mathbb{F}_X(x)
+\end{align*}
+συνεπώς έχουμε δείξει ότι ισχύει για απλές συναρτήσεις.
+\item  Αν η $g$ είναι (Borel) μετρήσιμη συνάρτηση η οποία παίρνει μη αρνητικές τιμές. Τότε, υπάρχει αύξουσα ακολουθία μετρήσιμων συναρτήσεων $\{g_n\}_{n\in\mathbb{N}}$ ώστε $\lim_{n\rightarrow \infty} g_n(x) = g(x)$ σ.π.
+Χρησιμοποιώντας το Θεώρημα Μονότονης Σύγκλισης παρατηρούμε ότι:
+$$\int_\Omega g(X(\omega))d\mathbb{P}(\omega) = \lim_{n\rightarrow \infty} \int_\Omega g_n(X(\omega)) d\mathbb{P}$$
+Επίσης, το όριο
+$$ \lim_{n\rightarrow \infty} \int_\mathbb{R} g_n(x) d\mathbb{F}_X(x) = \int_\mathbb{R} g(x)d\mathbb{F}_X(x)$$
+\item Τέλος, αν η $g$ είναι μια (Borel) μετρήσιμη συνάρτηση, τότε χρησιμοποιούμε την σχέση
+$$g = g^+ - g^-$$
+για να καταλήξουμε στο επιθυμητό αποτέλεσμα.
+\end{enumerate}
+\end{proof}
+
+Και πάλι, στην θέση του $(\mathbb{R},\mathcal{B})$ μπορούμε να έχουμε τον $(S,\mathcal{H})$ η $g$ θα πρέπει να είναι $\mathcal{H}$ μετρήσιμη και η $X$ θα πηγαίνει από το $\Omega$ στο $\mathbb{R}$.\\
+
+\begin{orismos} Αν υπάρχει Borel μετρήσιμη συνάρτηση $f_X:\mathcal{B}(\mathbb{R}) \rightarrow \mathbb{R}$ έτσι ώστε $\forall B \in \mathcal{B}$
+$$\mathbf{F}_X(B) = \int_B f_X(x) d\mu(x)$$
+όπου $\mu$ είναι το μέτρο Lebesgue, τότε λέμε ότι η $X$ είναι τυχαία μεταβλητή με \textbf{συνεχή κατανομή} και η $f_X$ ονομάζεται \textbf{πυκνότητα} (density) της $X$ (αλλά και της κατανομής $\mathbb{F}_X$).
+\end{orismos}
+
+* Μάθημα 7
+
+\begin{orismos}
+Έστω $(\Omega,\mathcal{F},\mathbb{P})$ ένας χώρος πιθανότητας και $X:\Omega \rightarrow S$ μια τυχαία μεταβλητή στον χώρο αυτό που παίρνει διακριτές τιμές $x_1, x_2, \dots \in S$, όπου $(S,\mathcal{H})$ ένας μετρήσιμος χώρος. Τότε λέμε ότι η $X$ έχει διακριτή κατανομή με μάζα $\mathbb{P}(X=x_i) = \mathbb{P}(\{\omega \in \Omega : X(\omega) = x_i\})$.
+\end{orismos}
+
+\begin{orismos}
+Έστω $X$ μια τ.μ. στον χώρος πιθανότητας $(\Omega, \mathcal{F}, \mathbb{P})$. Ορίζουμε ως μέση τιμή (expectation) της $X$ το ολοκλήρωμα $\int_\Omega X d\mathbb{P}$, δηλαδή $\mathbb{E}[X] = \int_\Omega X d\mathbb{P}$
+\end{orismos}
+
+\begin{orismos}
+Έστω $X:\Omega \rightarrow \mathbb{R}$ μια τ.μ. στον $(\Omega, \mathcal{F},\mathbb{P})$ με $\mathbb{E}[|X|^2]<\infty$. Ορίζουμε την διασπορά (variance) της $X$ ως το ολοκλήρωμα $\int_\Omega |X-\mathbb{E}[X]|^2 d\mathbb{P}$, δηλαδή
+$$ Var(X) = \mathbb{E}[|X-\mathbb{E}[X]|^2] $$
+\end{orismos}
+
+\textbf{Διακριτές Τυχαίες Μεταβλητές:} $X(\omega) = \sum_{i}x_i\mathbf{1}_{A_i}(\omega), \: x_i \in \mathbb{R}.\: A_i \cap A_j = \emptyset$ για $i\neq j$ με $A_i \in \mathcal{F}$ για κάθε $i\geq 1$.
+
+\begin{align*}
+\mathbb{E}[X] &= \int_\Omega X d\mathbb{P} = \int_\Omega \sum_i x_i \mathbf{1}_{A_i} = \sum_i \int_\Omega x_i \mathbf{1}_{A_i} d\mathbb{P} =\sum_i \int_{A_i} x_i d\mathbb{P}\\
+&= \sum_i x_i \int_{A_i} d\mathbb{P} = \sum_i x_i \mathbb{P}(A_i) = \sum_i
+\end{align*}
+
+\begin{theorima}[Ανισότητα Markov]
+ Έστω $X:\Omega \rightarrow \mathbb{R}$ μια τυχαία μεταβλητή στον χώρο πιθανότητας $(\Omega,\mathcal{F},\mathbb{P})$ η οποία παίρνει μη-αρνητικές τιμές και $c>0$. Τότε
+$$ \mathbb{P}(X\geq c) \leq \frac{\mathbb{E}[X]}{c}  \qquad \mathbb{E}[X] \geq \mathbb{E}[x\mathbf{1}_{\{x \geq c\}}] = c \mathbb{P}(X\geq c)$$
+\end{theorima}
+
+\begin{theorima}[Ανισότητα Chebyshev]
+Έστω $X:\Omega \rightarrow \mathbb{R}$ μια τ.μ. στον $(\Omega, \mathcal{F}, \mathbb{P})$ με $\mathbb{E}[|X|]<\infty$ και $c>0$. Τότε
+$$\mathbb{P}(|X-\mathbb{E}[X]|\geq c) \leq \frac{Var(X)}{c^2} $$
+\end{theorima}
+
+\begin{theorima}[Ανισότητα Jensen]
+Έστω $X:\Omega \rightarrow \mathbb{R}$ μια τ.μ. στον χ.π. $(\Omega,\mathcal{F},\mathbb{P})$ και $\phi:\mathbb{R} \rightarrow \mathbb{R}$ μια κυρτή συνάρτηση και επίσης $\mathbb{E}[X] <\infty$. Τότε
+$$\mathbb{E}[\phi(X)] \geq \phi \big( \mathbb{E}[X]\big)$$
+\end{theorima}
+
+** Χώροι L^p
+
+Χώροι $L^p, p>0$: Έστω $(S,\mathcal{H},\mu)$ ένας σ-πεπερασμένος χώρος μέτρου. Το σύνολο όλων των μετρήσιμων συναρτήσεων $f:S \rightarrow V$, όπου $V,\mathcal{G}$ μετρήσιμος χώρος, οι οποίες έχουν την ιδιότητα
+$$ \Big( \int_S |f|_V ^p d\mu \Big)^{1/p}  <\infty $$
+
+όπου $|\cdot|_V$ η νόρμα που παράγεται από τον $V$.
+
+Για εμάς $S=\Omega, \mathcal{H}=\mathcal{F}, \mu = \mathbb{P}$ και θέλουμε όλες τις τ.μ. τ.ω.
+$$||X||_p = \Big( \int_\Omega |X|^p d\mathbb{P} \Big)^{1/p} < \infty $$
+όταν $p>1$ έχουμε την λεγόμενη $L^p$ νόρμα.
+
+** Σύγκλιση
+
+\begin{orismos}
+Έστω $\{X_n\}_{n\geq 1}$ μια ακολουθία τυχαίων μεταβλητών σε να χώρο πιθανότητας $(\Omega, \mathcal{F},\mathbb{P})$. Τότε μέμε ότι
+\begin{enumerate}
+\item η ακολουθία συγκλίνει σε μια τυχαία μεταβλητή $X$ \emph{σχεδόν βέβαια} (ή με πιθανότητα 1) και γράφουμε $X_n \stackrel{\text{σ.β.}}{\rightarrow} X$, αν
+$$P(\lim_{n\rightarrow \infty} X_n = X) = 1 $$
+δηλαδή αν $P( \{\omega \in \OmegaL \lim_{n\rightarrow \infty} X_n(\omega) = X(\omega\} ) = 1$
+\item η ακολουθία συγκλίνει σε μια τυχαία μεταβλητή $X$ \emph{κατά πιθανότητα} (in probability) και γράφουμε $X_n \stackrel{\mathbb{P}}{\rightarrow} X$ αν
+$$\lim_{n\rightarrow \infty}\mathbb{P}(|X_n - X| > \epsilon) = 0 \qquad \forall \epsilon >0$$
+\item η ακολουθία συγκίνει σε μια τυχαία μεταβλητή $X$ \emph{κατά κατανομή} (in distribution) και γράφουμε $X_n \stackrel{d}{\rightarrow} X$ αν
+$$ \lim_{n\rightarrow \infty} \underbrace{\mathbb{P}(X_n \leq x)}_{F_{X_n}(x)} = \underbrace{\mathbb{P}(X\leq x)}_{F_X(x)}$$
+σε κάθε σημείο συνέχειας $x$ της συνάρτησης κατανομής $F_X$
+\item η ακολουθία συγκλίνει σε μια τυχαία μεταβλητή $X$ \emph{στον $L^p$} και γράφουμε $X_n \stackrel{L^p}{\rightarrow} X$ αν
+$$\lim_{n\rightarrow \infty} \mathbb{E}[|X_n - X|^p]=0$$
+\end{enumerate}
+\end{orismos}
+
+Ισχύει το ακόλουθο σχήμα που συνδέει τις πιο πάνω συγκλίσεις
+\begin{align*}
+&\text{σ.β.} \\
+&\Downarrow \\
+\text{στον } L^p  \Rightarrow \text{ κατά}&\text{ πιθανότητα } \\
+& \Downarrow \\
+\text{κατά}&\text{ κατανομή}
+\end{align*}
