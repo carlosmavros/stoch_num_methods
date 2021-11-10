@@ -1,4 +1,4 @@
-% Created 2021-11-10 Wed 09:38
+% Created 2021-11-10 Wed 12:34
 % Intended LaTeX compiler: pdflatex
 \documentclass[12pt,a4paper]{article}
                 \usepackage[utf8]{inputenc}
@@ -17,7 +17,6 @@
                 \newtheorem{theorem}{Theorem}[section]
                 \newtheorem{lemma}[theorem]{Lemma}
                 \theoremstyle{definition}
-                \setlengthparindent{0pt}
                 \numberwithin{equation}{section}
                 \setlist[itemize,1]{label=$\diamond$}
                 \usepackage{hyperref}
@@ -29,8 +28,6 @@
                 \newtheorem{theorima}{Θεώρημα}
                 \selectlanguage{greek}
 
-\usepackage[AUTO]{babel}
-\selectdefault
 \selectlanguage{greek}
 \author{\textgreek{Κάρλος Μαύρος - ΣΕΜΦΕ ΕΜΠ}}
 \date{\today}
@@ -49,7 +46,7 @@
 \selectlanguage{greek}
 
 \section{ΕΙΣΑΓΩΓΗ}
-\label{sec:org501c360}
+\label{sec:orgf6d9729}
 
 \begin{itemize}
 \item \textlatin{MCMC (Markov Chain Monte Carlo).}
@@ -59,7 +56,7 @@
 
 
 
-Στα  \textlatin{gradient methods & stochastic gradient methods} υπάρχουν 2 σχολές:
+Στα  \textlatin{gradient methods \& stochastic gradient methods} υπάρχουν 2 σχολές:
 \begin{itemize}
 \item Επιχειρησιακή έρευνα (κυρτές συναρτήσεις).
 \item Μέσα από την θεωρία του \textlatin{Stochastic Approximation:} χρησιμοποιεί ΔΕ σαν εργαλεία
@@ -77,8 +74,8 @@
 είναι τα \textlatin{martingales.} Βλέπω τις τάσεις του δυναμικού συστήματος.
 \end{itemize}
 
-\section{ΔΙΑΔΙΚΑΣΤΙΚΑ ΜΑΘΗΜΑΤΟΣ}
-\label{sec:org1ddda4f}
+\subsection{ΔΙΑΔΙΚΑΣΤΙΚΑ ΜΑΘΗΜΑΤΟΣ}
+\label{sec:org34f7eb2}
 \begin{itemize}
 \item θα γίνει εξέταση
 \item βιβλιογραφία:
@@ -90,10 +87,10 @@
 
 \newpage
 \section{Μάθημα 1}
-\label{sec:orgf2b8afe}
+\label{sec:orgf50d17f}
 
 \subsection{Εισαγωγή}
-\label{sec:orgcb85e5a}
+\label{sec:orgf35169d}
 
 \begin{itemize}
 \item Ονομάζουμε σύνολο κάθε συλλογή αντικειμένων όπου η διάταξη δεν έχει σημασία.
@@ -137,10 +134,10 @@
 \newpage
 
 \section{Μάθημα 2}
-\label{sec:orgd2ea739}
+\label{sec:orgd7e1fc4}
 
 \subsection{Στοιχεία Θεωρίας Πιθανοτήτων}
-\label{sec:orge48a920}
+\label{sec:orgfba30d6}
 
 \begin{orismos}{(Παραγόμενη σ-άλγεβρα)}:
 Αν $\mathcal{A}$ είναι μια συλλογή υποσυνόλων του $\Omega$,
@@ -239,10 +236,10 @@ $$ f^{-1}(B) = \begin{cases}
 \end{itemize}
 
 \section{Μάθημα 3}
-\label{sec:org77457ff}
+\label{sec:org365ccbe}
 
 \subsection{Ιδιότητες μετρήσιμων συναρτήσεων}
-\label{sec:org2f3d3d5}
+\label{sec:orgf0bcb01}
 \begin{enumerate}
 \item Οι δείκτριες συναρτήσεις ενός μετρήσιμου συνόλου είναι μετρήσιμες ( \(A \in \mathcal{F} \Rightarrow \mathbf{1}_A \text{ είναι } \mathcal{F}\text{-μετρήσιμη}\) )
 \item Το άθροισμα, η διαφορά, το γινόμενο και το πηλίκο (όπου ορίζεται) μετρήσιμων συναρτήσεων είναι μετρήσιμα.
@@ -259,7 +256,7 @@ $$ f^+(x) = \max (f(x),0) \qquad f^-(x) = - \min(f(x),0)$$
 (Για τα παραπάνω δεν θα κάνουμε απόδειξη σε αυτό το μάθημα, τα χρησιμοποιούμε ελεύθερα στις ασκήσεις και στην εξέταση με απλή αναφορά τους)
 
 \subsection{Θεωρία Μέτρου}
-\label{sec:org771dd26}
+\label{sec:orge15fd23}
 
 \begin{orismos} Έστω $(\Omega, \mathcal{F})$ είναι μετρήσιμος χώρος και έστω $\mu: \mathcal{F} \rightarrow \mathbb{R} \cup \{+\infty\}$
 είναι μια συάρτηση. Τότε, η $\mu$ ονομάζεται \textbf{μέτρο} αν:
@@ -278,7 +275,7 @@ $P: \mathcal{F} \rightarrow [0,1]$ η οποία ικανοποιέι τις ι�
 \end{orismos}
 
 \subsubsection{Ιδιότητες μέτρων πιθανότητας}
-\label{sec:org00e13f6}
+\label{sec:org6fdffd8}
 Θεωρούμε τον χ.π. \((\Omega, \mathcal{F},P)\). Τότε ισχύουν τα εξής:
 \begin{enumerate}
 \item \textlatin{(coutable subadditivity)}. Για κάθε \(A_1,A_2,\dots \in \mathcal{F}\) έχουμε \(P\big( \bigcup_{i\geq 1} \big) \leq \sum_{i\geq 1} P(A_i)\).
@@ -313,7 +310,7 @@ $$\lim_{n\rightarrow \infty} P(A_n) = P\big( \bigcap_{n=1}^\infty A_n\big)$$
 \end{orismos}
 
 \subsubsection{Θεώρημα Καραθεοδωρή (εκτός ύλης)}
-\label{sec:orgf9b0203}
+\label{sec:orga2d2030}
 
 \begin{orismos} Έστω $\Omega$ είναι ένα μη-κενό σύνολο. Ονομάζουμε ένα σύνολο υποσυνόλων
 $\mathcal{G}$ του $\Omega$ ως \textbf{π-σύστημα (ή άλγεβρα)} αν είναι κλειστό ως προς τις πεπερασμένες τομές,
@@ -346,7 +343,7 @@ $$\mu_0(G) = \sum_{k\leq r} (b_k - a_k)$$
 \end{paradeigma}
 
 \subsection{Ολοκλήρωση}
-\label{sec:org07178e9}
+\label{sec:org33c8bcd}
 
 \textbf{Μια παρατήρηση}: Ας εξετάσουμε τη συνάρτηση \(f:[0,1]\rightarrow \mathbb{R}\) η οποία ορίζεται ως
 $$ f(x) = \begin{cases} 0, \quad \forall x \in \mathbb{Q}\cap[0,1]\\
@@ -368,7 +365,7 @@ $$ \int _{[0,1]} f(x) d\mu(x) = 1\cdot \mu([0,1]\setminus \mathbb{Q}) + 0 \cdot 
 \pagebreak
 
 \section{Μάθημα 4}
-\label{sec:org7bb5c6e}
+\label{sec:org7e44f73}
 Το ερώτημα είναι: \textbf{μπορώ να ολοκληρώσω τις απλές συναρτήσεις;}\\
 
 Απλές συναρτήσεις \textlatin{(step functions)} είναι συναρτήσεις της μορφής
@@ -377,7 +374,7 @@ $$ f(x) = \sum_{i=1}^n c_i \mathbf{1}_{A_i} \qquad \text{όπου } \: A_i \cap 
 Στόχος μας είναι να ξεκινήσουεμ να κτίζουμε το ολοκλήρωμ από απλές συναρτήσεις και να γενικεύσουμε, καταλήγοντας στο ολοκλήρωμα γενικά για μετρήσιμες συναρτήσεις.
 
 \subsection{Το ολοκλήρωμα \textlatin{Lebesgue}}
-\label{sec:org58d9c20}
+\label{sec:orgfb05606}
 Θα ορίσουμε το ολοκλήρωμα \textlatin{Lebesgue} σε τρία βήματα.\\
 
 Έστω \((\Omega,\mathcal{F})\) μετήσιμος χώρος και \(\mu:\mathcal{F}\rightarrow \mathbb{R} \cup \{+ \infty\}\) ένα μέτρο. Επίσης έστω
@@ -416,7 +413,7 @@ $$\int_\Omega f d\mu = \int_\Omega f^+ d\mu - \int_\Omega f^- d\mu $$
 \pagebreak
 
 \subsection{Ιδιότητες}
-\label{sec:org4f990b4}
+\label{sec:org178ab8b}
 \begin{enumerate}
 \item Το ολοκλήρωμα \textlatin{Lebesgue} μιας μετρήσιμης συνάρτησης, όπου αυτό ορίζεται, είναι ένα στοιχείο του \([0,\infty]\).
 \item Αν το μέτρο ενός έστω από τα \(A_i\) είναι ίσο με άπειρο, τότε το ολοκλήρωμα \textlatin{Lebesgue} παίρενει την τιμή \(+\infty\) (για κάθε \(c_i >0,\: i\geq 1\)).
@@ -433,7 +430,7 @@ $$\int_{-\infty}^\infty f(x)d<\inftyx \quad \text{ή}\quad \int_{-\infty}^\infty
 \end{enumerate}
 
 \subsection{Κύριες Ιδιότητες του ολοκληρώματος \textlatin{Lebesgue}:}
-\label{sec:orgc79a53c}
+\label{sec:orgf53d2d7}
 
 \begin{itemize}
 \item \textbf\{(Γραμμικότητα - \textlatin{Linearity})\}   $$\int_\mathbb{R} (c_1 f + c_2 g) d\mu = c_1 \int_\mathbb{R} fd\mu + c_2 \int_\mathbb{R} gd\mu$$.
@@ -445,10 +442,10 @@ $$\int_\mathbb{R} f(x)d\mu(x) \leq \int_\mathbb{R} g(x)d\mu(x)$$.
 \pagebreak
 \end{itemize}
 \section{Μάθημα 5}
-\label{sec:org879823b}
+\label{sec:org1e7bb81}
 
 \subsubsection{Θεωρήματα Σύγκλισης}
-\label{sec:orgc6ab826}
+\label{sec:orgb262336}
 \begin{theorima}[Μονότονης Σύγκλισης - \textlatin{Monotone Convergence Theorem (MCT)}.] Έστω $\{f_n\}_{n\geq 1}$ μια αύξουσα ακολουθία μετρήσιμων μη αρνητικών συναρτήσεων, οι οποίες
   συγκλίνουν σε μια συνάρτηση μετρήσιμη $f$, τότε
   $$ \int_\mathbb{R} f d\mu = \lim_{n\rightarrow \infty} \int_\mathbb{R} f_n d\mu $$
@@ -532,7 +529,7 @@ $$ \nu(A) = \int_A f d\mu  \quad \forall A \in \mathbb{F}$$
 \pagebreak
 
 \section{Μάθημα 6}
-\label{sec:org2422fa9}
+\label{sec:orga1a7112}
 
 \textbf{Παρατήρηση}: Στο Θεώρημα \textlatin{Radon Nikodym} αυστηρά δεν έχουμε ορίσει κάποια παράγωγο μέτρου σε σχέση με κάποιο άλλο μέτρο, και ο συμβολισμός της πυκνότητας
 
@@ -618,7 +615,7 @@ $$\mathbf{F}_X(B) = \int_B f_X(x) d\mu(x)$$
 \end{orismos}
 
 \section{Μάθημα 7}
-\label{sec:org7617c10}
+\label{sec:org08b6571}
 
 \begin{orismos}
 Έστω $(\Omega,\mathcal{F},\mathbb{P})$ ένας χώρος πιθανότητας και $X:\Omega \rightarrow S$ μια τυχαία μεταβλητή στον χώρο αυτό που παίρνει διακριτές τιμές $x_1, x_2, \dots \in S$, όπου $(S,\mathcal{H})$ ένας μετρήσιμος χώρος. Τότε λέμε ότι η $X$ έχει διακριτή κατανομή με μάζα $\mathbb{P}(X=x_i) = \mathbb{P}(\{\omega \in \Omega : X(\omega) = x_i\})$.
@@ -656,7 +653,7 @@ $$\mathbb{E}[\phi(X)] \geq \phi \big( \mathbb{E}[X]\big)$$
 \end{theorima}
 
 \subsection{Χώροι \(L^p\)}
-\label{sec:org5fa1265}
+\label{sec:orgb278035}
 
 Χώροι \(L^p, p>0\): Έστω \((S,\mathcal{H},\mu)\) ένας σ-πεπερασμένος χώρος μέτρου. Το σύνολο όλων των μετρήσιμων συναρτήσεων \(f:S \rightarrow V\), όπου \(V,\mathcal{G}\) μετρήσιμος χώρος, οι οποίες έχουν την ιδιότητα
 $$ \Big( \int_S |f|_V ^p d\mu \Big)^{1/p}  <\infty $$
@@ -668,7 +665,7 @@ $$||X||_p = \Big( \int_\Omega |X|^p d\mathbb{P} \Big)^{1/p} < \infty $$
 όταν \(p>1\) έχουμε την λεγόμενη \(L^p\) νόρμα.
 
 \subsection{Σύγκλιση}
-\label{sec:org803557c}
+\label{sec:org6f0b941}
 
 \begin{orismos}
 Έστω $\{X_n\}_{n\geq 1}$ μια ακολουθία τυχαίων μεταβλητών σε να χώρο πιθανότητας $(\Omega, \mathcal{F},\mathbb{P})$. Τότε μέμε ότι
@@ -694,4 +691,104 @@ $$\lim_{n\rightarrow \infty} \mathbb{E}[|X_n - X|^p]=0$$
 & \Downarrow \\
 \text{κατά}&\text{ κατανομή}
 \end{align*}
+
+\section{Μάθημα 8}
+\label{sec:orgbf3a91c}
+\pagebreak
+
+\section{Μάθημα 9}
+\label{sec:orgca0842c}
+
+Υποθέτω για όλα τα παρακάτω ότι υπάρχει ένας χώρος πιθανότητας \((\Omega,\mathcal{F},\mathbb{P})\).
+
+\begin{orismos}
+    Έστω $A,B \in \mathcal{F}$ και $\mathbb{P}(A) \neq 0$, τότε ορίζουμε τη \textbf{δεσμευμένη πιθανότητα} του $A$ δοθέντος/δεδομένου του $B$
+    ως εξής
+$$ \mathbb{P}(A|B) := \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}$$
+\end{orismos}
+
+\begin{orismos}
+    Τα ενδεχόμενα $A,B \in \mathcal{F}$ λέμε ότι είναι \textbf{ανεξάρτητα} (μεταξύ τους) αν
+$$ \mathbb{P}(A \cap B) = \mathbb{P}(A) \mathbb{P}(B) $$
+\end{orismos}
+
+\begin{orismos}
+    Δύο τυχαίες μεταβλητές $X:\Omega \rightarrow \mathbb{R}$ και $Y:\Omega \rightarrow \mathbb{R}$ ονομάζονται
+    \textbf{ανεξάρτητες} αν για οποιαδήποτε $A,B \in \mathbcal{B}(\mathbb{R}$)$ τα ενδεχόμενα $X^{-1}(A)$ και $Y^{-1}(B)$ είναι ανεξάρτητα.
+\end{oritmos}
+
+\begin{orismos}
+    Δύο σ-άλγεβρες $\mathcal{F}_1, \mathcal{F}_2 \subset \mathcal{F}$, ονομάζονται \textbf{ανεξάρτητες} αν οποιαδήποτε ενδεχόμενα
+    $A\in \mathcal{F}_1$ και $B \in \mathcal{F}_2$ έχουμε ότι είναι ανεξάρτητας.
+\end{orismos}
+
+\begin{paradeigma}
+    Δύο τυχαίες μεταβλητές $X$ και $Y$ είναι ανεξάρτητες αν και μόνο αν οι παραγόμενες σ-άλγεβρες $\sigma(X), \sigma(Y)$ είναι ανεξάρτητες.
+\end{paradeigma}
+
+\begin{orismos}
+    Η ελάχιστη σ-άλγεβρα που περιέχει όλες τις προ-εικόνες (\textlatin{pre-images}) $X^{-1}(A), \: \forall A \in \mathcal{B}{\mathbb{R}}$ μιας τυχαίας μεταβλητής $X$,
+    ονομάζεται \textbf{σ-άλγεβρα παραγόμενη από την} $X$, και συμβολίζεται με $\sigma(X)$. \\
+\end{orismos}
+
+\textbf{Σημεωίση:} Ο ορισμός επεκτείνεται με φυσικό τρόπο σε πεπερασμένο πλήθος τ.μ. \(X_1, \dots, X_n\) για την δημιουργία παραγόμενης σ-άλγεβρας \(\sigma(X_1,\dots,X_n)\) από
+αυτές τις τυχαίες μεταβλητές.
+
+\begin{paradeigma}
+    Αν $X$ και $Y$ είναι ανεξάρτητες τ.μ. τότε
+ $$ \forall x,y, \in \mathbb{R} \quad \mathbb{P}(X\leq x, Y\leq y) = \mathbb{P}(X\leq x) \mathbb{P}(Y\leq y)$$
+και συνεπώς
+$$F_{X,Y}(x,y) = F_X(x) F_Y(y)$$
+\end{paradeigma}
+
+\begin{orismos}
+    Έστω $X$ μια ολοκληρώσιμη τυχαία μεταβλητή και $B \in \mathcal{F}$ με $\mathbb{P}(B) \neq 0$. Τότε ορίζουμε τη \textbf{δεσμευμένη μέση τιμή} της $X$ δοθέντος του
+    ενδεχομένου $B$ ως
+$$ \mathbb{E}[X|B] = \frac{1}{\mathbb{P}(B)}\int_B Xd\mathbb{P} = \frac{\mathbb{E}[X\mathbf{1}_B]}{\mathbb{E}[\mathbf{1}_B]} $$
+\end{orismos}
+
+\textbf{Παρατήρηση:} Αν θέσω \(X = \mathbf{1}_A\) τότε εύκολα βλέπουμε ότι
+$$\mathbb{E}[\mathbf{1}_A|B] = \frac{1}{\mathbb{P}(B)}\int_B \mathbf{1}_A d \mathbb{P} = \frac{1}{\mathbb{P}(B)} \int_{A\cap B} d\mathbb{P} = \frac{P(A\cap B)}{\mathbb{P}}$$
+
+\textbf{Σημείωση} Όταν δύο τ.μ. \(X\) και \(Y\) είναι ανεξάρτητες, τότε \(\mathbb{E}[XY] = \mathbb{E}[X] \mathbb{E}[Y]\) (αφήνεται ως άσκηση)
+
+
+\begin{orismos}
+    Έστω $X$ μια $L^1$ τυχαία μεταβλητή, δηλαδή $\mathbb{E}[|X|]<\infty$. Τότε ορίζουμε την \textbf{δεσμευμένη μέση τιμή} της $X$ δοθείσης της
+    διακριτής τυχαίας μεταβλητής
+
+  $$Y = \sum_{i\geq 1} y_i \mathbf{1}_{A_i} \qquad \text{όπου } A_i = \{Y = y_i \} \quad \forall i\geq 1$$
+
+ ως την τυχαία μεταβλητή $\mathbb{E}[X|Y]$ τ.ω.
+
+    $$\mathbb{E}[X|Y]  = \sum_i \mathbb{E}[X|\{Y = y_i\} ]\mathbf{1}_{ \{Y=y_i\} }$$
+\end{orismos}
+
+
+\begin{paradeigma}
+Έστω $(\Omega,\mathcal{F},\mathbb{P})$ ένας χώρος πιθανότητας όπου $\Omega = [0,1],\: \mathcal{F} = \mathcal{B}([0,1])$ και $\mathbb{P}$ το μέτρο
+\textlatin{Lebesgue} στο $[0,1]$.\\
+Έστω επίησης οι τ.μ. $X,Y: \Omega \rightarrow \mathbb{R}$ όπου
+$$ X(\omega) = 2\omega^2 , \quad Y(\omega) = \begin{cases}
+                                                    1, \quad & \forall \omega \in [0,1/3) =A_1\\
+                                                    2, \quad & \forall \omega \in [1/3,2/3)= A_2\\
+                                                    0, \quad & \forall \omega \in [2/3, 1] = A_3
+                                            \end{cases} $$
+
+Παρατηρούμε ότι η $Y$ έχει διακριτή κατανομή και ότι $\{ \omega \in \Omega : Y(\omega) = 1\} = \{ Y = 1\} = [0,1/3)$. Ομοίως $\{Y=2\} = [1/3,2/3)$ και $\{Y=0\}= [2/3,1]$
+Aλλιώς μπορούμε να δούμε το παραπάνω μέσω της παραγόμενης σ-άλγεβρας της $Y$
+
+$$ \sigma(Y) = \{ A_1, A_2, A_3, A_1 \cup A_2, A_1 \cup A_3, a_2 \cup A_3, \Omega, \emptyset \} $$
+
+Άρα, η τ.μ. $\mathbb{E}[X|Y] : \Omega \rightarrow \mathbb{R}$ ορίζεται ως
+
+
+$$
+\mathbb{E}[X|Y](\omega) = \begin{cases}
+    \mathbb{E}[X|[0,\frac{1}{3}] = \frac{1}{\mathbb{P}([0,1/3))}\mathbb{E}[X\mathbf{1}_{[0,1/3)}] = \frac{1}{3} \int_0^{1/3}2x^2 dx = \frac{2}{27}&, \quad  \forall \omega \in [0,1/3)\\
+    \mathbb{E}[X|[\frac{1}{3},\frac{2}{3}] = \frac{14}{27}&, \quad  \forall \omega \in [0,1/3)\\
+    \mathbb{E}[X|[\frac{2}{3}],1]] = \frac{38}{27}&, \quad  \forall \omega \in [0,1/3)\\
+\end{cases}$$
+
+\end{paradeigma}
 \end{document}

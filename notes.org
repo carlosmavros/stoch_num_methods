@@ -3,7 +3,6 @@
 #+AUTHOR: \textgreek{Κάρλος Μαύρος - ΣΕΜΦΕ ΕΜΠ}
 #+LATEX_CLASS: orgNotes
 #+LATEX_COMPILER: pdflatex
-#+LATEX_HEADER: \selectdefault
 #+LATEX_HEADER_EXTRA: \selectlanguage{greek}
 #+OPTIONS: num:nil
 #+OPTIONS: toc:nil
@@ -18,7 +17,7 @@
 
 
 
-Στα  \textlatin{gradient methods & stochastic gradient methods} υπάρχουν 2 σχολές:
+Στα  \textlatin{gradient methods \& stochastic gradient methods} υπάρχουν 2 σχολές:
 - Επιχειρησιακή έρευνα (κυρτές συναρτήσεις).
 - Μέσα από την θεωρία του \textlatin{Stochastic Approximation:} χρησιμοποιεί ΔΕ σαν εργαλεία
 
@@ -32,7 +31,7 @@
 + \textlatin{Ito's formula} (σημαντικό) διαχωρίζει το δυναμικό σύστημα τ.ω. να μπορούμε να αναγνωρίζουμε ποια
   είναι τα \textlatin{martingales.} Βλέπω τις τάσεις του δυναμικού συστήματος.
 
-* ΔΙΑΔΙΚΑΣΤΙΚΑ ΜΑΘΗΜΑΤΟΣ
+** ΔΙΑΔΙΚΑΣΤΙΚΑ ΜΑΘΗΜΑΤΟΣ
 + θα γίνει εξέταση
 + βιβλιογραφία:
   + (Θεωρία Πιθανοτήτων) \textlatin{David Williams} : \textlatin{Probability with martingales}
@@ -604,3 +603,101 @@ $$\lim_{n\rightarrow \infty} \mathbb{E}[|X_n - X|^p]=0$$
 & \Downarrow \\
 \text{κατά}&\text{ κατανομή}
 \end{align*}
+
+* Μάθημα 8
+\pagebreak
+
+* Μάθημα 9
+
+Υποθέτω για όλα τα παρακάτω ότι υπάρχει ένας χώρος πιθανότητας $(\Omega,\mathcal{F},\mathbb{P})$.
+
+\begin{orismos}
+    Έστω $A,B \in \mathcal{F}$ και $\mathbb{P}(A) \neq 0$, τότε ορίζουμε τη \textbf{δεσμευμένη πιθανότητα} του $A$ δοθέντος/δεδομένου του $B$
+    ως εξής
+$$ \mathbb{P}(A|B) := \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}$$
+\end{orismos}
+
+\begin{orismos}
+    Τα ενδεχόμενα $A,B \in \mathcal{F}$ λέμε ότι είναι \textbf{ανεξάρτητα} (μεταξύ τους) αν
+$$ \mathbb{P}(A \cap B) = \mathbb{P}(A) \mathbb{P}(B) $$
+\end{orismos}
+
+\begin{orismos}
+    Δύο τυχαίες μεταβλητές $X:\Omega \rightarrow \mathbb{R}$ και $Y:\Omega \rightarrow \mathbb{R}$ ονομάζονται
+    \textbf{ανεξάρτητες} αν για οποιαδήποτε $A,B \in \mathbcal{B}(\mathbb{R}$)$ τα ενδεχόμενα $X^{-1}(A)$ και $Y^{-1}(B)$ είναι ανεξάρτητα.
+\end{oritmos}
+
+\begin{orismos}
+    Δύο σ-άλγεβρες $\mathcal{F}_1, \mathcal{F}_2 \subset \mathcal{F}$, ονομάζονται \textbf{ανεξάρτητες} αν οποιαδήποτε ενδεχόμενα
+    $A\in \mathcal{F}_1$ και $B \in \mathcal{F}_2$ έχουμε ότι είναι ανεξάρτητας.
+\end{orismos}
+
+\begin{paradeigma}
+    Δύο τυχαίες μεταβλητές $X$ και $Y$ είναι ανεξάρτητες αν και μόνο αν οι παραγόμενες σ-άλγεβρες $\sigma(X), \sigma(Y)$ είναι ανεξάρτητες.
+\end{paradeigma}
+
+\begin{orismos}
+    Η ελάχιστη σ-άλγεβρα που περιέχει όλες τις προ-εικόνες (\textlatin{pre-images}) $X^{-1}(A), \: \forall A \in \mathcal{B}{\mathbb{R}}$ μιας τυχαίας μεταβλητής $X$,
+    ονομάζεται \textbf{σ-άλγεβρα παραγόμενη από την} $X$, και συμβολίζεται με $\sigma(X)$. \\
+\end{orismos}
+
+*Σημεωίση:* Ο ορισμός επεκτείνεται με φυσικό τρόπο σε πεπερασμένο πλήθος τ.μ. $X_1, \dots, X_n$ για την δημιουργία παραγόμενης σ-άλγεβρας $\sigma(X_1,\dots,X_n)$ από
+αυτές τις τυχαίες μεταβλητές.
+
+\begin{paradeigma}
+    Αν $X$ και $Y$ είναι ανεξάρτητες τ.μ. τότε
+ $$ \forall x,y, \in \mathbb{R} \quad \mathbb{P}(X\leq x, Y\leq y) = \mathbb{P}(X\leq x) \mathbb{P}(Y\leq y)$$
+και συνεπώς
+$$F_{X,Y}(x,y) = F_X(x) F_Y(y)$$
+\end{paradeigma}
+
+\begin{orismos}
+    Έστω $X$ μια ολοκληρώσιμη τυχαία μεταβλητή και $B \in \mathcal{F}$ με $\mathbb{P}(B) \neq 0$. Τότε ορίζουμε τη \textbf{δεσμευμένη μέση τιμή} της $X$ δοθέντος του
+    ενδεχομένου $B$ ως
+$$ \mathbb{E}[X|B] = \frac{1}{\mathbb{P}(B)}\int_B Xd\mathbb{P} = \frac{\mathbb{E}[X\mathbf{1}_B]}{\mathbb{E}[\mathbf{1}_B]} $$
+\end{orismos}
+
+*Παρατήρηση:* Αν θέσω $X = \mathbf{1}_A$ τότε εύκολα βλέπουμε ότι
+$$\mathbb{E}[\mathbf{1}_A|B] = \frac{1}{\mathbb{P}(B)}\int_B \mathbf{1}_A d \mathbb{P} = \frac{1}{\mathbb{P}(B)} \int_{A\cap B} d\mathbb{P} = \frac{P(A\cap B)}{\mathbb{P}}$$
+
+*Σημείωση* Όταν δύο τ.μ. $X$ και $Y$ είναι ανεξάρτητες, τότε $\mathbb{E}[XY] = \mathbb{E}[X] \mathbb{E}[Y]$ (αφήνεται ως άσκηση)
+
+
+\begin{orismos}
+    Έστω $X$ μια $L^1$ τυχαία μεταβλητή, δηλαδή $\mathbb{E}[|X|]<\infty$. Τότε ορίζουμε την \textbf{δεσμευμένη μέση τιμή} της $X$ δοθείσης της
+    διακριτής τυχαίας μεταβλητής
+
+  $$Y = \sum_{i\geq 1} y_i \mathbf{1}_{A_i} \qquad \text{όπου } A_i = \{Y = y_i \} \quad \forall i\geq 1$$
+
+ ως την τυχαία μεταβλητή $\mathbb{E}[X|Y]$ τ.ω.
+
+    $$\mathbb{E}[X|Y]  = \sum_i \mathbb{E}[X|\{Y = y_i\} ]\mathbf{1}_{ \{Y=y_i\} }$$
+\end{orismos}
+
+
+\begin{paradeigma}
+Έστω $(\Omega,\mathcal{F},\mathbb{P})$ ένας χώρος πιθανότητας όπου $\Omega = [0,1],\: \mathcal{F} = \mathcal{B}([0,1])$ και $\mathbb{P}$ το μέτρο
+\textlatin{Lebesgue} στο $[0,1]$.\\
+Έστω επίησης οι τ.μ. $X,Y: \Omega \rightarrow \mathbb{R}$ όπου
+$$ X(\omega) = 2\omega^2 , \quad Y(\omega) = \begin{cases}
+                                                    1, \quad & \forall \omega \in [0,1/3) =A_1\\
+                                                    2, \quad & \forall \omega \in [1/3,2/3)= A_2\\
+                                                    0, \quad & \forall \omega \in [2/3, 1] = A_3
+                                            \end{cases} $$
+
+Παρατηρούμε ότι η $Y$ έχει διακριτή κατανομή και ότι $\{ \omega \in \Omega : Y(\omega) = 1\} = \{ Y = 1\} = [0,1/3)$. Ομοίως $\{Y=2\} = [1/3,2/3)$ και $\{Y=0\}= [2/3,1]$
+Aλλιώς μπορούμε να δούμε το παραπάνω μέσω της παραγόμενης σ-άλγεβρας της $Y$
+
+$$ \sigma(Y) = \{ A_1, A_2, A_3, A_1 \cup A_2, A_1 \cup A_3, a_2 \cup A_3, \Omega, \emptyset \} $$
+
+Άρα, η τ.μ. $\mathbb{E}[X|Y] : \Omega \rightarrow \mathbb{R}$ ορίζεται ως
+
+
+$$
+\mathbb{E}[X|Y](\omega) = \begin{cases}
+    \mathbb{E}[X|[0,\frac{1}{3}] = \frac{1}{\mathbb{P}([0,1/3))}\mathbb{E}[X\mathbf{1}_{[0,1/3)}] = \frac{1}{3} \int_0^{1/3}2x^2 dx = \frac{2}{27}&, \quad  \forall \omega \in [0,1/3)\\
+    \mathbb{E}[X|[\frac{1}{3},\frac{2}{3}] = \frac{14}{27}&, \quad  \forall \omega \in [0,1/3)\\
+    \mathbb{E}[X|[\frac{2}{3}],1]] = \frac{38}{27}&, \quad  \forall \omega \in [0,1/3)\\
+\end{cases}$$
+
+\end{paradeigma}
