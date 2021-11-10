@@ -1,12 +1,11 @@
 
-# Table of Contents
-
+## Lecture Notes - Stochastic Numerical Methods & Applications
 
 
 This repository contains the lecture note for the class of Stochastic Numerical Methods and Applications.
 This class is taught by Prof. Sotirios Sampanias @SEMFE-NTUA.
 
-**Important**
+# Important
 The lecture notes are typed during class as a .org (ORG-MODE) file.
 Org Mode allows to export org files as pdf, .tex, .html etc..
 
