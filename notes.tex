@@ -1,4 +1,4 @@
-% Created 2021-11-10 Wed 12:34
+% Created 2021-11-24 Wed 12:35
 % Intended LaTeX compiler: pdflatex
 \documentclass[12pt,a4paper]{article}
                 \usepackage[utf8]{inputenc}
@@ -26,6 +26,7 @@
                 \newtheorem{protasi}{Πρόταση}
                 \newtheorem{orismos}{Ορισμός}
                 \newtheorem{theorima}{Θεώρημα}
+                \newtheorem{limma}{Λήμμα}
                 \selectlanguage{greek}
 
 \selectlanguage{greek}
@@ -46,7 +47,7 @@
 \selectlanguage{greek}
 
 \section{ΕΙΣΑΓΩΓΗ}
-\label{sec:orgf6d9729}
+\label{sec:org83b8bfb}
 
 \begin{itemize}
 \item \textlatin{MCMC (Markov Chain Monte Carlo).}
@@ -75,7 +76,7 @@
 \end{itemize}
 
 \subsection{ΔΙΑΔΙΚΑΣΤΙΚΑ ΜΑΘΗΜΑΤΟΣ}
-\label{sec:org34f7eb2}
+\label{sec:org77b541a}
 \begin{itemize}
 \item θα γίνει εξέταση
 \item βιβλιογραφία:
@@ -87,10 +88,10 @@
 
 \newpage
 \section{Μάθημα 1}
-\label{sec:orgf50d17f}
+\label{sec:orgbe842ac}
 
 \subsection{Εισαγωγή}
-\label{sec:orgf35169d}
+\label{sec:orgf8547cb}
 
 \begin{itemize}
 \item Ονομάζουμε σύνολο κάθε συλλογή αντικειμένων όπου η διάταξη δεν έχει σημασία.
@@ -134,10 +135,10 @@
 \newpage
 
 \section{Μάθημα 2}
-\label{sec:orgd7e1fc4}
+\label{sec:org6b0daf4}
 
 \subsection{Στοιχεία Θεωρίας Πιθανοτήτων}
-\label{sec:orgfba30d6}
+\label{sec:org978358c}
 
 \begin{orismos}{(Παραγόμενη σ-άλγεβρα)}:
 Αν $\mathcal{A}$ είναι μια συλλογή υποσυνόλων του $\Omega$,
@@ -236,10 +237,10 @@ $$ f^{-1}(B) = \begin{cases}
 \end{itemize}
 
 \section{Μάθημα 3}
-\label{sec:org365ccbe}
+\label{sec:orgc6f1e03}
 
 \subsection{Ιδιότητες μετρήσιμων συναρτήσεων}
-\label{sec:orgf0bcb01}
+\label{sec:org6ff61c9}
 \begin{enumerate}
 \item Οι δείκτριες συναρτήσεις ενός μετρήσιμου συνόλου είναι μετρήσιμες ( \(A \in \mathcal{F} \Rightarrow \mathbf{1}_A \text{ είναι } \mathcal{F}\text{-μετρήσιμη}\) )
 \item Το άθροισμα, η διαφορά, το γινόμενο και το πηλίκο (όπου ορίζεται) μετρήσιμων συναρτήσεων είναι μετρήσιμα.
@@ -256,7 +257,7 @@ $$ f^+(x) = \max (f(x),0) \qquad f^-(x) = - \min(f(x),0)$$
 (Για τα παραπάνω δεν θα κάνουμε απόδειξη σε αυτό το μάθημα, τα χρησιμοποιούμε ελεύθερα στις ασκήσεις και στην εξέταση με απλή αναφορά τους)
 
 \subsection{Θεωρία Μέτρου}
-\label{sec:orge15fd23}
+\label{sec:org68040ae}
 
 \begin{orismos} Έστω $(\Omega, \mathcal{F})$ είναι μετρήσιμος χώρος και έστω $\mu: \mathcal{F} \rightarrow \mathbb{R} \cup \{+\infty\}$
 είναι μια συάρτηση. Τότε, η $\mu$ ονομάζεται \textbf{μέτρο} αν:
@@ -275,7 +276,7 @@ $P: \mathcal{F} \rightarrow [0,1]$ η οποία ικανοποιέι τις ι�
 \end{orismos}
 
 \subsubsection{Ιδιότητες μέτρων πιθανότητας}
-\label{sec:org6fdffd8}
+\label{sec:orgbe90b74}
 Θεωρούμε τον χ.π. \((\Omega, \mathcal{F},P)\). Τότε ισχύουν τα εξής:
 \begin{enumerate}
 \item \textlatin{(coutable subadditivity)}. Για κάθε \(A_1,A_2,\dots \in \mathcal{F}\) έχουμε \(P\big( \bigcup_{i\geq 1} \big) \leq \sum_{i\geq 1} P(A_i)\).
@@ -310,7 +311,7 @@ $$\lim_{n\rightarrow \infty} P(A_n) = P\big( \bigcap_{n=1}^\infty A_n\big)$$
 \end{orismos}
 
 \subsubsection{Θεώρημα Καραθεοδωρή (εκτός ύλης)}
-\label{sec:orga2d2030}
+\label{sec:org0deca94}
 
 \begin{orismos} Έστω $\Omega$ είναι ένα μη-κενό σύνολο. Ονομάζουμε ένα σύνολο υποσυνόλων
 $\mathcal{G}$ του $\Omega$ ως \textbf{π-σύστημα (ή άλγεβρα)} αν είναι κλειστό ως προς τις πεπερασμένες τομές,
@@ -343,7 +344,7 @@ $$\mu_0(G) = \sum_{k\leq r} (b_k - a_k)$$
 \end{paradeigma}
 
 \subsection{Ολοκλήρωση}
-\label{sec:org33c8bcd}
+\label{sec:orgb6bd5aa}
 
 \textbf{Μια παρατήρηση}: Ας εξετάσουμε τη συνάρτηση \(f:[0,1]\rightarrow \mathbb{R}\) η οποία ορίζεται ως
 $$ f(x) = \begin{cases} 0, \quad \forall x \in \mathbb{Q}\cap[0,1]\\
@@ -365,7 +366,7 @@ $$ \int _{[0,1]} f(x) d\mu(x) = 1\cdot \mu([0,1]\setminus \mathbb{Q}) + 0 \cdot 
 \pagebreak
 
 \section{Μάθημα 4}
-\label{sec:org7e44f73}
+\label{sec:org60aad8e}
 Το ερώτημα είναι: \textbf{μπορώ να ολοκληρώσω τις απλές συναρτήσεις;}\\
 
 Απλές συναρτήσεις \textlatin{(step functions)} είναι συναρτήσεις της μορφής
@@ -374,7 +375,7 @@ $$ f(x) = \sum_{i=1}^n c_i \mathbf{1}_{A_i} \qquad \text{όπου } \: A_i \cap 
 Στόχος μας είναι να ξεκινήσουεμ να κτίζουμε το ολοκλήρωμ από απλές συναρτήσεις και να γενικεύσουμε, καταλήγοντας στο ολοκλήρωμα γενικά για μετρήσιμες συναρτήσεις.
 
 \subsection{Το ολοκλήρωμα \textlatin{Lebesgue}}
-\label{sec:orgfb05606}
+\label{sec:orgf71020b}
 Θα ορίσουμε το ολοκλήρωμα \textlatin{Lebesgue} σε τρία βήματα.\\
 
 Έστω \((\Omega,\mathcal{F})\) μετήσιμος χώρος και \(\mu:\mathcal{F}\rightarrow \mathbb{R} \cup \{+ \infty\}\) ένα μέτρο. Επίσης έστω
@@ -413,7 +414,7 @@ $$\int_\Omega f d\mu = \int_\Omega f^+ d\mu - \int_\Omega f^- d\mu $$
 \pagebreak
 
 \subsection{Ιδιότητες}
-\label{sec:org178ab8b}
+\label{sec:orga46e55b}
 \begin{enumerate}
 \item Το ολοκλήρωμα \textlatin{Lebesgue} μιας μετρήσιμης συνάρτησης, όπου αυτό ορίζεται, είναι ένα στοιχείο του \([0,\infty]\).
 \item Αν το μέτρο ενός έστω από τα \(A_i\) είναι ίσο με άπειρο, τότε το ολοκλήρωμα \textlatin{Lebesgue} παίρενει την τιμή \(+\infty\) (για κάθε \(c_i >0,\: i\geq 1\)).
@@ -430,7 +431,7 @@ $$\int_{-\infty}^\infty f(x)d<\inftyx \quad \text{ή}\quad \int_{-\infty}^\infty
 \end{enumerate}
 
 \subsection{Κύριες Ιδιότητες του ολοκληρώματος \textlatin{Lebesgue}:}
-\label{sec:orgf53d2d7}
+\label{sec:org7b27c77}
 
 \begin{itemize}
 \item \textbf\{(Γραμμικότητα - \textlatin{Linearity})\}   $$\int_\mathbb{R} (c_1 f + c_2 g) d\mu = c_1 \int_\mathbb{R} fd\mu + c_2 \int_\mathbb{R} gd\mu$$.
@@ -442,10 +443,10 @@ $$\int_\mathbb{R} f(x)d\mu(x) \leq \int_\mathbb{R} g(x)d\mu(x)$$.
 \pagebreak
 \end{itemize}
 \section{Μάθημα 5}
-\label{sec:org1e7bb81}
+\label{sec:orgff32437}
 
 \subsubsection{Θεωρήματα Σύγκλισης}
-\label{sec:orgb262336}
+\label{sec:org2036ccc}
 \begin{theorima}[Μονότονης Σύγκλισης - \textlatin{Monotone Convergence Theorem (MCT)}.] Έστω $\{f_n\}_{n\geq 1}$ μια αύξουσα ακολουθία μετρήσιμων μη αρνητικών συναρτήσεων, οι οποίες
   συγκλίνουν σε μια συνάρτηση μετρήσιμη $f$, τότε
   $$ \int_\mathbb{R} f d\mu = \lim_{n\rightarrow \infty} \int_\mathbb{R} f_n d\mu $$
@@ -529,7 +530,7 @@ $$ \nu(A) = \int_A f d\mu  \quad \forall A \in \mathbb{F}$$
 \pagebreak
 
 \section{Μάθημα 6}
-\label{sec:orga1a7112}
+\label{sec:orgafaa7b9}
 
 \textbf{Παρατήρηση}: Στο Θεώρημα \textlatin{Radon Nikodym} αυστηρά δεν έχουμε ορίσει κάποια παράγωγο μέτρου σε σχέση με κάποιο άλλο μέτρο, και ο συμβολισμός της πυκνότητας
 
@@ -615,7 +616,7 @@ $$\mathbf{F}_X(B) = \int_B f_X(x) d\mu(x)$$
 \end{orismos}
 
 \section{Μάθημα 7}
-\label{sec:org08b6571}
+\label{sec:org9611d46}
 
 \begin{orismos}
 Έστω $(\Omega,\mathcal{F},\mathbb{P})$ ένας χώρος πιθανότητας και $X:\Omega \rightarrow S$ μια τυχαία μεταβλητή στον χώρο αυτό που παίρνει διακριτές τιμές $x_1, x_2, \dots \in S$, όπου $(S,\mathcal{H})$ ένας μετρήσιμος χώρος. Τότε λέμε ότι η $X$ έχει διακριτή κατανομή με μάζα $\mathbb{P}(X=x_i) = \mathbb{P}(\{\omega \in \Omega : X(\omega) = x_i\})$.
@@ -653,7 +654,7 @@ $$\mathbb{E}[\phi(X)] \geq \phi \big( \mathbb{E}[X]\big)$$
 \end{theorima}
 
 \subsection{Χώροι \(L^p\)}
-\label{sec:orgb278035}
+\label{sec:orgd6aec3a}
 
 Χώροι \(L^p, p>0\): Έστω \((S,\mathcal{H},\mu)\) ένας σ-πεπερασμένος χώρος μέτρου. Το σύνολο όλων των μετρήσιμων συναρτήσεων \(f:S \rightarrow V\), όπου \(V,\mathcal{G}\) μετρήσιμος χώρος, οι οποίες έχουν την ιδιότητα
 $$ \Big( \int_S |f|_V ^p d\mu \Big)^{1/p}  <\infty $$
@@ -665,7 +666,7 @@ $$||X||_p = \Big( \int_\Omega |X|^p d\mathbb{P} \Big)^{1/p} < \infty $$
 όταν \(p>1\) έχουμε την λεγόμενη \(L^p\) νόρμα.
 
 \subsection{Σύγκλιση}
-\label{sec:org6f0b941}
+\label{sec:orge50bd71}
 
 \begin{orismos}
 Έστω $\{X_n\}_{n\geq 1}$ μια ακολουθία τυχαίων μεταβλητών σε να χώρο πιθανότητας $(\Omega, \mathcal{F},\mathbb{P})$. Τότε μέμε ότι
@@ -693,11 +694,11 @@ $$\lim_{n\rightarrow \infty} \mathbb{E}[|X_n - X|^p]=0$$
 \end{align*}
 
 \section{Μάθημα 8}
-\label{sec:orgbf3a91c}
+\label{sec:org586af97}
 \pagebreak
 
 \section{Μάθημα 9}
-\label{sec:orgca0842c}
+\label{sec:org77bb547}
 
 Υποθέτω για όλα τα παρακάτω ότι υπάρχει ένας χώρος πιθανότητας \((\Omega,\mathcal{F},\mathbb{P})\).
 
@@ -791,4 +792,87 @@ $$
 \end{cases}$$
 
 \end{paradeigma}
+
+
+\pagebreak
+
+\section{Μάθημα 10}
+\label{sec:orgc148bb8}
+
+\begin{enumerate}
+\item Έστω ένας χ.π. \((\Omega, \mathcal{F},\mathbb{P})\) και \(\mathcal{G}\subset \mathcal{F}\). Τότε για την \(\mathbb{E}[X|\mathcal{G}]\) έχουμε
+\begin{enumerate}
+\item \(\mathbb{E}[X|\mathcal{G}]\) είναι \(\mathcal{G}-\text{μετρήσιμη}\).
+\item \(\forall A \in \mathcal{G}\) έχουμε την ιδιότητα του \textlatin{partial averaging}:
+$$ \int_A X d\mathbb{P} = \int_A \mathbb{E}[X|Y]d\mathbb{P} \quad \text{ή ισοδύναμα} \quad \mathbb{E}[X\mathbf{1}_A] = \mathbb{E}\Big[ \mathbb{E}[X|Y]\mathbf{1}_A \Big]$$
+\end{enumerate}
+\item Μπορούμε να γράψουμε \(\mathbb{E}[X|\sigma(Y)]\) αντί για \(\mathbb{E}[X|Y]\) και αντίστροφα.
+\item \(\mathbb{P}(A|\mathcal{G}) = \mathbb{E}[\mathbf{1}_A|\mathcal{G}]\) \textlatin{(consistency)}.
+\end{enumerate}
+
+
+\begin{paradeigma}
+Η μέση τιμή $\mathbb{E}[X]<\infty $ μιας τυχαίας μεταβλητής $X\in L^1$ είναι έξνας αριθμός που μπορεί να θεωρηθεί ως τετριμμένη τυχαία μεταβλητή μιας και μπορούμε να γράωουμε $\mathbb{E}[X|\mathcal{F}_0] = \mathbb{E}[X]$ όπου
+η $\mathcal{F}_0 = \{\emptyset, \Omega\}$ είναι η τετεριμμένη σ-άλγεβρα.
+\end{paradeigma}
+
+\textbf{Σημείωση:} Μια διαφορετική προσέγγιση είναι να δούμε την μέση τιμή ως την καλύτερη πρόβλεψη/εκτιμήτρια \textlatin{(prediction/estimator)} που έχουμε για την τυχαία μεταβλητή (που εξετάζουμε κάθε φορά),
+όταν ορίζουμε την ιδιότητα \emph{καλύτερη} μέσω της ελαχιστοποίησης του μέσου τετραγωνικού σφάλματος.
+
+\begin{limma}{($L^2-\text{προβολής}$ ή καλύτερης πρόβλεψης).} Αν $\mathbb{E}[X^2]<\infty$, τότε η δεσμευμένη μέση τιμή $\mathbb{E}[X|\mathcal{F}_0]$ ελαχιστοποέι την $\mathbb{E}[(X-Y)^2]$ για όλες της $\mathcal{F}_0-\text{μετρήσιμες}$ τυχαίες μεταβλητές $Y\in L^2$.
+\end{limma}
+
+
+\textbf{Απόδειξη}
+    Παρατηρούμε ότι
+\begin{align*}
+\mathbb{E}[(X-Y)^2]
+&=\mathbb{E}[(X-\mathbb{E}[X|\mathcak{F}_0] + \mathbb{E}[X|\mathcal{F}_0] - Y)^2]\\
+&=\mathbb{E}\Big[ (X-\mathbb{E}[X|\mathcal{F}_0])^2 \Big] + 2 \underbrace{\mathbb{E}\Big[(X-\mathbb{E}[X|\mathcal{F}_0]) (\mathbb{E} [ X|\mathcal{F}_0] - Y) \Big]}_{( * )} + \mathbb{E}\Big[(\mathbb{E}[X|\mathcal{F}_0])^2\Big]
+\end{align*}
+
+Στο \(( * )\) έχουμε από την \(\mathcal{F}_0-\text{μετρησιμότητα}\) των \(\mathbb{E}[X|\mathcal{F}_0]\) και \(Y\) (που τις καθιστά σταθερές , αφού η \(\mathcal{F}_0\) είναι η τετριμμένη σ-άλγεβρα):
+
+
+$$ \text{ (*) } = (\mathbb{E}[X|\mathcal{F}_0] - Y ) \underbrace{\mathbb{E}[X - \mathbb{E}[X|\mathcal{F}_0]]}}_{=\mathbb{E}[X] - \mathbb{E}[X]} = 0 $$
+
+
+\textbf{Άσκηση:}
+
+$$ \mathbb{E} \Big[ (X- \mathbb{E}[X|\mathcal{G}])^2\Big] = \min \{ \mathbb{E}[(X-Z)^2] \: : \: \text{όπου η } Z \in \mathcal{G}, Z \in L^2 \}$$
+
+\subsection{Θεμελιώδεις ιδιότητες της δεσμευμένης μέσης τιμής.}
+\label{sec:orga8e7ed6}
+
+\begin{enumerate}
+\item \textlatin{(linarity)}. Για κάθε \(a,b \in \mathbb{R}, \mathcal{G} \subset \mathcal{F}\) και \(X,Y : \Omega \rightarrow \mathbb{R}^2\), με \(X,Y \in L^1\) τότε
+$$ \mathbb{E}[ aX + bY | \mathcal{G}] = a \mathbb{E}[X|\mathcal{G}] + b \mathbb{E}[Y|\mathcal{G}]$$
+\item \textlatin{(positivity)}. Για κάθε \(X:\Omega \rightarrow \mathbb{R}^2\), με \(X \in L^1\) τυχαία μεταβλητή τότε
+$$ X \geq 0 \: \text{σ.β.} \Rightarrow \mathbb{E}[X|\mathcal{G}] \geq 0 \: \text{σ.β.} $$
+\item \textlatin{(taking out what's known)}. Αν \(X: \Omega \rightarrow \mathbB{R}^d\) είναι μια \(\mathcal{G}-\text{μετρήσιμη}\), \(L^1\) τυχαία μεταβλητή, τότε για κάθε \(Y:\Omega \rightarrow \mathbb{R}^d, Y \in L^1\) έχουμε
+$$ \mathbb{E}[XY|\mathcal{G}] = X \mathbb{E}[Y|\mathcal{G}] $$
+\item \textlatin{(tower property)}. Αν οι σ-λάγεβρες \(\mathcal{G}_1, \mathcal{G}_2\) είναι τέτοιες ώστε \(\mathcal{G}_1 \subset \mathcal{G}_2 \subset \mathcal{F}\), τότε για κάθε \(X\in L^1\) τ.μ. έχουμε
+$$ \mathbb{E}\Big[ \mathbb{E}[X|\mathcal{G}_2 | \mathcal{G}_1 \Big] = \mathbb{E}[X|\mathcal{G}_1] \quad \text{σ.β.}$$
+\item Αν \(X\) μια \(L^1\) τ.μ. ανεξάρτητη από την σ-άλγεβρα \(\mathcal{G}\subset \mathcal{F}\), τότε
+$$\mathbb{E}[X|\mathcal{G}] = \mathbb{E}[X] \quad \text{σ.β.}$$
+\item \textlatin{(Jensen's inequality)}. Αν \(X \in L^1\) και \(\phi :\mathb{R} \rightarrow \mathbb{R}\) μια κυρτή συνάρτηση, τότε
+$$ \phi \Big( \mathbb{E}[X|\mathbb{G}] \Big) \leq \mathbb{E}\Big[ \phi(X) | \mathcal{G} \Big]$$
+\end{enumerate}
+
+
+\textbf{Απόδειξη της ιδιότητας 5:} Αν η \(X\) είναι ανεξάρτητη της σ-άλβεγρας \(\mathcal{G}\), τότε η \(X\) είναι ανεξάρτητη από την δείκτρια \(\mathbf{1}_A\) οποιουδήποτε συνόλου \(A \in \mathcal{G}\).
+Έτσι, για κάθε \(A \in \mathcal{G}\) έχουμε από \textlatin{partial averaging property}
+$$ \int_A X d\mathbb{P} = \int_\Omega A \mathbf{1}_A d\mathbb{P} = \mathbb{E}[X\mathbf{1}_A] = \mathbb{E}[X]\mathbb{E}[\mathbf{1}_A] = \mathbb{E}[X]\int_A 1 d\mathbb{P} = \int_A \mathbb{E}[X] d\mathbb{P}$$
+Επίσης, η \(\mathbb{E}[X]\)  είναι \(\mathcal{G}-\text{μετρήσιμη}\) άρα \(\mathbb{E}[X|\mathcal{G}] = \mathbb{E}[X] \: \text{σ.β.}\)
+
+\pagebreak
+
+\textbf{ΠΑΡΑΤΗΡΗΣΗ}: Το Θεώρημα μονότονης σύγκλισης, το Λήμμα \textlatin{Fatou}, και το Θεώρημα κυριαρχημένης σύγκλισης ισχύουν και αν χρησιμοποιήσουμε δεσμευμένες μέσες τιμές, δηλαδή εάν αντικαταστήσουμε τα ολοκληρώματα
+\textlatin{Lebesgue} \(\int \cdot d\mu\) με \(\mathbb{E}[\cdot | \mathcal{G}]\), όπου \(\mathcal{G}\) μια σ-άλγεβρα.\\
+
+
+\textbf{ΠΑΡΑΤΗΡΗΣΗ}: Έστω μια σ-αγεβρα \(\mathcal{G}\subset \mathcal{F}\) και \(X\) μια τ.μ. ανεξάρτητη της \(\mathcal{G}\). Επίσης, έστω μια συβάρτηση \(h: \mathbb{R}^d \times \mathbb{R}^d \rightarrow \mathbb{R}^d, d \geq 1\) η οποία είναι
+\textlatin{Borel} μετρήσιμη και τ.ω. \(\mathbb{E}[|h(X,Y)|] < \infty\) για κάποια \(\mathcal{G}-\text{μετρήσιμη}\) τυχαία μεταβητή \(Y\). Τότε
+$$ \mathbb{E}\big[ h(X,Y) | \mathcal{G} \big]  = f(Y)$$
+όπου \(f(y) = \mathbb{E}\big[h(X,y)\big]\) για κάθε \(y \in \mathbb{R}^d\)
 \end{document}

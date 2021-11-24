@@ -701,3 +701,78 @@ $$
 \end{cases}$$
 
 \end{paradeigma}
+
+
+\pagebreak
+
+* Μάθημα 10
+
+1. Έστω ένας χ.π. $(\Omega, \mathcal{F},\mathbb{P})$ και $\mathcal{G}\subset \mathcal{F}$. Τότε για την $\mathbb{E}[X|\mathcal{G}]$ έχουμε
+   a. $\mathbb{E}[X|\mathcal{G}]$ είναι $\mathcal{G}-\text{μετρήσιμη}$.
+   b. $\forall A \in \mathcal{G}$ έχουμε την ιδιότητα του \textlatin{partial averaging}:
+      $$ \int_A X d\mathbb{P} = \int_A \mathbb{E}[X|Y]d\mathbb{P} \quad \text{ή ισοδύναμα} \quad \mathbb{E}[X\mathbf{1}_A] = \mathbb{E}\Big[ \mathbb{E}[X|Y]\mathbf{1}_A \Big]$$
+2. Μπορούμε να γράψουμε $\mathbb{E}[X|\sigma(Y)]$ αντί για $\mathbb{E}[X|Y]$ και αντίστροφα.
+3. $\mathbb{P}(A|\mathcal{G}) = \mathbb{E}[\mathbf{1}_A|\mathcal{G}]$ \textlatin{(consistency)}.
+
+
+\begin{paradeigma}
+Η μέση τιμή $\mathbb{E}[X]<\infty $ μιας τυχαίας μεταβλητής $X\in L^1$ είναι έξνας αριθμός που μπορεί να θεωρηθεί ως τετριμμένη τυχαία μεταβλητή μιας και μπορούμε να γράωουμε $\mathbb{E}[X|\mathcal{F}_0] = \mathbb{E}[X]$ όπου
+η $\mathcal{F}_0 = \{\emptyset, \Omega\}$ είναι η τετεριμμένη σ-άλγεβρα.
+\end{paradeigma}
+
+*Σημείωση:* Μια διαφορετική προσέγγιση είναι να δούμε την μέση τιμή ως την καλύτερη πρόβλεψη/εκτιμήτρια \textlatin{(prediction/estimator)} που έχουμε για την τυχαία μεταβλητή (που εξετάζουμε κάθε φορά),
+όταν ορίζουμε την ιδιότητα \emph{καλύτερη} μέσω της ελαχιστοποίησης του μέσου τετραγωνικού σφάλματος.
+
+\begin{limma}{($L^2-\text{προβολής}$ ή καλύτερης πρόβλεψης).} Αν $\mathbb{E}[X^2]<\infty$, τότε η δεσμευμένη μέση τιμή $\mathbb{E}[X|\mathcal{F}_0]$ ελαχιστοποέι την $\mathbb{E}[(X-Y)^2]$ για όλες της $\mathcal{F}_0-\text{μετρήσιμες}$ τυχαίες μεταβλητές $Y\in L^2$.
+\end{limma}
+
+
+*Απόδειξη*
+    Παρατηρούμε ότι
+\begin{align*}
+\mathbb{E}[(X-Y)^2]
+&=\mathbb{E}[(X-\mathbb{E}[X|\mathcak{F}_0] + \mathbb{E}[X|\mathcal{F}_0] - Y)^2]\\
+&=\mathbb{E}\Big[ (X-\mathbb{E}[X|\mathcal{F}_0])^2 \Big] + 2 \underbrace{\mathbb{E}\Big[(X-\mathbb{E}[X|\mathcal{F}_0]) (\mathbb{E} [ X|\mathcal{F}_0] - Y) \Big]}_{( * )} + \mathbb{E}\Big[(\mathbb{E}[X|\mathcal{F}_0])^2\Big]
+\end{align*}
+
+Στο $( * )$ έχουμε από την $\mathcal{F}_0-\text{μετρησιμότητα}$ των $\mathbb{E}[X|\mathcal{F}_0]$ και $Y$ (που τις καθιστά σταθερές , αφού η $\mathcal{F}_0$ είναι η τετριμμένη σ-άλγεβρα):
+
+
+$$ \text{ (*) } = (\mathbb{E}[X|\mathcal{F}_0] - Y ) \underbrace{\mathbb{E}[X - \mathbb{E}[X|\mathcal{F}_0]]}}_{=\mathbb{E}[X] - \mathbb{E}[X]} = 0 $$
+
+
+*Άσκηση:*
+
+$$ \mathbb{E} \Big[ (X- \mathbb{E}[X|\mathcal{G}])^2\Big] = \min \{ \mathbb{E}[(X-Z)^2] \: : \: \text{όπου η } Z \in \mathcal{G}, Z \in L^2 \}$$
+
+** Θεμελιώδεις ιδιότητες της δεσμευμένης μέσης τιμής.
+
+1. \textlatin{(linarity)}. Για κάθε $a,b \in \mathbb{R}, \mathcal{G} \subset \mathcal{F}$ και $X,Y : \Omega \rightarrow \mathbb{R}^2$, με $X,Y \in L^1$ τότε
+   $$ \mathbb{E}[ aX + bY | \mathcal{G}] = a \mathbb{E}[X|\mathcal{G}] + b \mathbb{E}[Y|\mathcal{G}]$$
+2. \textlatin{(positivity)}. Για κάθε $X:\Omega \rightarrow \mathbb{R}^2$, με $X \in L^1$ τυχαία μεταβλητή τότε
+   $$ X \geq 0 \: \text{σ.β.} \Rightarrow \mathbb{E}[X|\mathcal{G}] \geq 0 \: \text{σ.β.} $$
+3. \textlatin{(taking out what's known)}. Αν $X: \Omega \rightarrow \mathbB{R}^d$ είναι μια $\mathcal{G}-\text{μετρήσιμη}$, $L^1$ τυχαία μεταβλητή, τότε για κάθε $Y:\Omega \rightarrow \mathbb{R}^d, Y \in L^1$ έχουμε
+   $$ \mathbb{E}[XY|\mathcal{G}] = X \mathbb{E}[Y|\mathcal{G}] $$
+4. \textlatin{(tower property)}. Αν οι σ-λάγεβρες $\mathcal{G}_1, \mathcal{G}_2$ είναι τέτοιες ώστε $\mathcal{G}_1 \subset \mathcal{G}_2 \subset \mathcal{F}$, τότε για κάθε $X\in L^1$ τ.μ. έχουμε
+   $$ \mathbb{E}\Big[ \mathbb{E}[X|\mathcal{G}_2 | \mathcal{G}_1 \Big] = \mathbb{E}[X|\mathcal{G}_1] \quad \text{σ.β.}$$
+5. Αν $X$ μια $L^1$ τ.μ. ανεξάρτητη από την σ-άλγεβρα $\mathcal{G}\subset \mathcal{F}$, τότε
+   $$\mathbb{E}[X|\mathcal{G}] = \mathbb{E}[X] \quad \text{σ.β.}$$
+6. \textlatin{(Jensen's inequality)}. Αν $X \in L^1$ και $\phi :\mathb{R} \rightarrow \mathbb{R}$ μια κυρτή συνάρτηση, τότε
+   $$ \phi \Big( \mathbb{E}[X|\mathbb{G}] \Big) \leq \mathbb{E}\Big[ \phi(X) | \mathcal{G} \Big]$$
+
+
+*Απόδειξη της ιδιότητας 5:* Αν η $X$ είναι ανεξάρτητη της σ-άλβεγρας $\mathcal{G}$, τότε η $X$ είναι ανεξάρτητη από την δείκτρια $\mathbf{1}_A$ οποιουδήποτε συνόλου $A \in \mathcal{G}$.
+Έτσι, για κάθε $A \in \mathcal{G}$ έχουμε από \textlatin{partial averaging property}
+$$ \int_A X d\mathbb{P} = \int_\Omega A \mathbf{1}_A d\mathbb{P} = \mathbb{E}[X\mathbf{1}_A] = \mathbb{E}[X]\mathbb{E}[\mathbf{1}_A] = \mathbb{E}[X]\int_A 1 d\mathbb{P} = \int_A \mathbb{E}[X] d\mathbb{P}$$
+Επίσης, η $\mathbb{E}[X]$  είναι $\mathcal{G}-\text{μετρήσιμη}$ άρα $\mathbb{E}[X|\mathcal{G}] = \mathbb{E}[X] \: \text{σ.β.}$
+
+\pagebreak
+
+*ΠΑΡΑΤΗΡΗΣΗ*: Το Θεώρημα μονότονης σύγκλισης, το Λήμμα \textlatin{Fatou}, και το Θεώρημα κυριαρχημένης σύγκλισης ισχύουν και αν χρησιμοποιήσουμε δεσμευμένες μέσες τιμές, δηλαδή εάν αντικαταστήσουμε τα ολοκληρώματα
+\textlatin{Lebesgue} $\int \cdot d\mu$ με $\mathbb{E}[\cdot | \mathcal{G}]$, όπου $\mathcal{G}$ μια σ-άλγεβρα.\\
+
+
+*ΠΑΡΑΤΗΡΗΣΗ*: Έστω μια σ-αγεβρα $\mathcal{G}\subset \mathcal{F}$ και $X$ μια τ.μ. ανεξάρτητη της $\mathcal{G}$. Επίσης, έστω μια συβάρτηση $h: \mathbb{R}^d \times \mathbb{R}^d \rightarrow \mathbb{R}^d, d \geq 1$ η οποία είναι
+\textlatin{Borel} μετρήσιμη και τ.ω. $\mathbb{E}[|h(X,Y)|] < \infty$ για κάποια $\mathcal{G}-\text{μετρήσιμη}$ τυχαία μεταβητή $Y$. Τότε
+$$ \mathbb{E}\big[ h(X,Y) | \mathcal{G} \big]  = f(Y)$$
+όπου $f(y) = \mathbb{E}\big[h(X,y)\big]$ για κάθε $y \in \mathbb{R}^d$
