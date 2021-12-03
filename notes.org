@@ -809,6 +809,7 @@ $$X_t = X_0 + \int_0^t b(X_s) ds + \underbrace{\int_0^t \sigma(X_s) dW_s}_{(*)} 
 
 * Μάθημα 12
 
+
 $$dX_t = b(X_t)dt + \text{"noise"}$$
 
 Θεωρούμε την κίνηση \textbf{Brown} $W = \{W_t\}_{t\geq 0}$ και στον $(\Omega, \mathcal{F},\mathbb{P})$ θα θέλαμε να έχουμε κάτι της μορφής
@@ -905,3 +906,104 @@ $$ W_t := (W_t^{(1)}, \dots, W_t^{(d)})^T $$
 και $W^{(i)}:= \{W_t^{(i)}\}_{t\geq 0}$ είναι μια τυπική κίνηση \textlatin{Brown} για κάθε $i\in\{1,\dots, d\}$
 
 \end{orismos}
+\pagebreak
+
+* Μάθημα 13
+
+** Κύμανση και τετραγωνικά κύμανση
+
+Αν θεωρήσουμε ένα διάστημα $[s,t] \subset [0,+\infty)$ και μια διαμέριση του
+
+$$\Pi_n = \big\{ t_0^n, t_1^n, \dots , t_n^n \: : \: \{t_0^n, t_1^n, \dots, t_n^n\} \subset [s,t] \text{ και  } s = t_0^n \leq t_1^n \leq \dotw \leq t_n^n = t \big\}$$
+
+για κάθε φυσικό αριθμό $n\geq 1$, έτσι ώστε  $\underbrace{|| \Pi_n || }_{\textlatin{(mesh)}} = \max_j |t_{j+1} - t_j | \rightarrow 0$ καθώς $n \rightarrow \infty$.
+
+\begin{orismos}(Κύμανση)\\
+Έστω $f: [s,t] \righarrow \mathbb{R}$ μια συνάρτηση και $\Pi_n$ μια διαμέριση του $A:=[s,t]$. Ορίζουμε πρώτα την ποσότητα
+$$ V(\Pi_n) := \sum_{i=1}^{n-1} |f(t_{j+1}) - f(t_j)| $$
+Τότε
+$$FV_A(f) := \lim_{||\Pi_n|| \rightarrow \infty} V(\Pi_n) \quad \Big( \lim_{n\rightarrow \infty} V(\Pi_n) \Big) $$
+ονομάζεται κύμανση \textlatin{(variation)} της συνάρτησης $f$ στο $A$.
+\end{orismos}
+
+\begin{orismos} (Τετραγωνική κύμανση)\\
+Έστω $f:[s,t] \rightarrow \mathbb{R}$ μια συνάρτηση και $\Pi_n$ μια διαμέριση του $A:=[s.t]$. Ορίζουμε πρώτα την ποσότητα
+$$Q(\Pi_n) := \sum_{i=0}{n-1}|f(t_{i+1}) - f(t_i)|^2 $$
+Τότε
+$$ [ f ]_A := \lim_{||\Pi_n|| \rightarrow \infty} Q(\Pi_n) \quad \Big( \lim_{n\rightarrow \infty} Q(\Pi_n) \Big) $$
+ονομάζεται τετραγωνική κύμανση της $f$ στο $A$.
+\end{orismos}
+
+Συνεπώς, ορίζουμε την τετραγωνική κύμανση ενός μονοπατιού μιας κίνησης \textlatin{Brown (Brownian path)} χρησιμοποιοώντας την ποσότητα
+$$ Q^{W}(\Pi_n) = \sum_{i=1}^{n-1} | W_{t+1} - W_{t_i}|^2 $$
+η οποία είναι τυχαία μεταβλητή.\\
+
+**Παρατήρηση:** Κανονικά, όπου γράωαμε $t_{j}$ θα έπρεπε να γράφουμε $t_j^n$ αλλά για συντομία παραλέιπουμε το $n$.
+
+i\begin{theorima}
+Έστω $\{ \Pi_n \}_{n\geq 1}$ μια ακολουθθία διαμερίσεων του $A:=[s,t]$ τ.ω. $\Pi_m \subset \Pi_n$, αν $m>n$ \textlatin{(refining sequence of partitions)} και $\lim_{n\rightarrow \infty} ||\Pi_n|| = 0 $. Τότε
+$$ Q^W(\Pi_n) \rightarrow t-s \quad \text{στον } L^2 \: \text{, όταν το } n\rightarrow \infty, \quad \Big(  [W]_A = t-s \quad \text{στον } L^2 \Big)$
+δηλ.
+$$\lim_{n\rightarrow \infty} \mathbb{E}\big[ |Q^W(\Pi_n) - (t-s)|^2 \big] = 0$$
+\end{theorima}
+
+\begin{proof}
+\begin{align*}
+\mathbb{E}\big[ |Q^W(\Pi_n) - (t-s) |^2\big] &= \mathbb{E}\Big[ \Big| \sum_{i=0}^{n-1} |W_{t_{i+1}^n} - W_{t_i^n}|^2 - \sum_{i=0}^{n-1}(t_{i+1}^n - t_i^n) \Big|^2 \Big]\\
+&= \mathbb{E}\Big[ \Big| \sum_{i=0}^{n-1} \big( |W_{t_{i+1}^n} - W_{t_i^n}|^2 - (t_{i+1}^n - t_i^n) \big) \Big|^2 \Big]\\
+&= \mathbb{E}\Big[ \sum_{i=0}^{n-1} \big( |W_{t_{i+1}^n} -W_{t_i^n}| - (t_{i+1}^n - t_{i}^n)  \big)^2 \Big + 2\sum_{i>j}\big(|W_{t_{i+1}^n} - W_{t_i^n}|^2 - (t_{i+1}^n - t_{i}^n) \big) \big( |W_{t_{j+1}^n} - W_{t_j^n}|^2 - (t_{j+1}^n - t_j^n) \big) \Big]\\
+&= \sum_{i=0}^{n-1} \mathbb{E}\Big[ \big( |W_{t_{i+1}^n} - W_{t_i^n}|^2 \cdot (t_{i+1}^n - t_{i}^n) \big)^2 \Big]\\
+&\qquad  + 2\sum_{i>j}\underbrace{\mathbb{E}\Big[ \big(|W_{t_{i+1}^n} - W_{t_i^n}|^2 - (t_{i+1}^n - t_i^n) \big) \Big]}_{ = 0 } \cdot \underbrace{\mathbb{E}\Big[ \big(|W_{t_{j+1}^n} - W_{t_j^n}|^2 - (t_{j+1}^n - t_j^n) \big) \Big]}_{ = 0 }\\
+&= \sum_{i=0}^{n-1} \mathbb{E}\Big[ \Big( \underbrace{\big( \frac{|W_{t_{i+1}^n} - W_{t_i^}| }{\sqrt{t_{i+1}^n - t_i^n}} \big)^2}_{:= Z^2} \cdot (t_{i+1}^n - t_i^n)  - (t_{i+1}^n - t_i^n) \Big)^2 \Big]\\
+&\leq \sum_{i=0}^{n-1} ||\Pi_n|| (t_{i+1}^n - t_i) \mathbb{E}\Big[ (Z^2 - 1)^2 \Big]\\
+&= ||\Pi_n|| \mathbb{E}[(Z^2-1)^2]]\cdot (t-s) \rightarrow 0 \quad \text{όταν } n\rightarrow \infty
+\end{align*}
+\end{proof}
+
+\begin{protasi} Για κάθε ακολουθία διαμερίσεων $\{\Pi_n\}_{n\geq 1}$ του $A:=[s,t]$ τέτοιων ώστε $\sum_{n=1}^\infty ||\Pi_n|| < \infty$, ισχύει
+$$ Q^W(\Pi_n) \rightarrow t-s \: \text{ σ.β. } \qquad \Big( [W]_A = t-s \: \text{ σ.β. }\Big)$$
+δηλ.
+$$ \mathbb{P}\Big( Q^W(\Pi_n) \rightarrow t-s \: \text{ όταν το  } n\rightarrow \infty \Big) = 1$$
+\end{protasi}
+
+\begin{proof}
+Στο προηγούμενο θεώρειμα δείξαμε ότι
+$$ \mathbb{E}\Big[ |Q^W(\Pi_n) - (t-s) | ^2 \Big] \leq \mathbb{E}[(Z^2 - 1)^2] ||\Pi_n||(t-s) $$
+όπου $Z \sim \mathcal{N}(0,1)$. Οπότε
+\begin{align*}
+\mathbb{E}\Big[ \sum_{n=1}^\infty |Q^W(\Pi_n) - (t-s)|^2\Big]  &= \sum_{i=}^{\infty} \mathbb{E}[ |Q^W(\Pi_n) - (t-s)|^2 ]\\
+&\lew \sum_{n=1}^{\infty} \mathbb{E}[(Z^2-1)^2] ||\Pi_n||(t-s) < infty
+\end{align*}
+
+(Στην πρώτη ισότητα παραπάνω, αφού έχουμε θετικές συναρτήσεις, χρησιμοποιήσαμε το θεώρημα μονότονης σύγκλησης.)\\
+
+
+Άρα, με πιθανότητα $1$, $\sum_{n=1}^\infty |Q^W(\Pi_n) - (t-s)|^2 < \infty$ και συνεπώς
+$$ \lim_{n\rightarrow \infyt} |Q^W(\Pi_n) - (t-s)|^2 = 0, \quad \text{ με πιθανότητα } 1$$
+και άρα
+$$ \lim_{n\rightarrow \infty} |Q^W(\Pi_n) - (t-s)| = 0 , \quad \text{ με πιθανότητα } 1$$
+το οποίο μας δίνει το επιθυμητό αποτέλεσμα.
+\end{proof}
+
+\begin{theorima}
+Για όλα (σχεδόν) τα $\omega \in \Omega$, τα μονοπάτια $t\mapsto W_t(\omega)$ μιας (τυπικής) κίνησης \textlatin{Brown} έχουν άπειρη κύμανση σε οποιοδήποτε
+υποδιάστημα του $[0,\infty)$.
+\end{theorima}
+
+\begin{proof}
+Έστ ω $0\leq s \leq t$ με $s,t$ ρητούς και $\{\Pi_n\}_{n\geq 1}$ μια ακολουθία διαμερίσεων του $A:=[s,t]$ τέτοιων ώστε $\sum_{n=1}^\infty || \Pi_n || < \infty$. Τότε
+\begin{align*}
+Q^W(\Pi_n) &= \sum_{i=0}^{n-1}|W_{t_{i+1}^n} - W_{t_i^n}|^2 \leq \sup_{0\leq i \leq n-1} |W_{t_{i+1}^n} - W_{t_i^n}| \sum_{i=0}^{n-1}|W_{t_{i+1}^n} - W_{t_i^n}|\\
+&\Rightarrow  \lim_{n\rightarrow \infty}  Q^W(\Pi_n) \leq \lim_{n\rightarrow \infty} \sup_{0\leq i \leq n-1} |W_{t_{i+1}^n} - W_{t_i^n}| \sum_{i=0}^{n-1} |W_{t_{i+1}^n} - W_{t_i^n}|\\
+&\Rightarrow t - s \leq \lim_{n\rightarrow \infty} \sup_{0\leq i \leq n-1} |W_{t_{i+1}^n} - W_{t_i^n}| \cdot V^W(\Pi_n)\\
+&\Rightarrow \lim_{n\rightarrow \infty} V^W(\Pi_n) = + \infty, \quad \text{δηλ. } FV_A(W) = + \infty \quad \text{σ.β.}
+\end{align*}
+Παρατηρούμε ότι ο υπολογισμός της τετραγωνική κύμανσης της κίνησης \textlatin{Brown} σε ένα οποιοδήποτε διάστημα του $[0,+\infry)$ είναι ανεξάρτητη της επιλογής ακολουθίας διαμερίσεων και άρα το όριο που βρίσκουμε είναι καώς ορισμένη.
+\end{proof}
+
+\begin{theorima}\textlatin{(Levy's Characterization Theorem)}\\
+Έστω $\{V_t\}_{t\geq 0}$ μια στοχαστική διαδικασία με συνεχή μονοπάτια, η οποία είναι \textlatin{martingale} ως προς μια διύληση $\{\mathcal{F}_t\}_{t\geq 0}$.\\
+Αν η τετραγωνική κύμανση στο $[0,t]$, δηλ. η $[ V ]_t$ είναι
+$$[ V ]_t = t $$
+τότε η στοχαστική διαδικασία $\{V_t\}_{t\geq 0}$ είναι μια κίνηση \textlatin{Brown}, και μάλιστα είναι \textlatin{Wiener martingale} ως προς την διλύληση $\{ \mathcal{F}_t\}_{t\geq 0}$
+\end{theorima}
